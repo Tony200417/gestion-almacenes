@@ -4,6 +4,9 @@
  */
 package gestion.almacenes.db;
 
+import gestion.almacenes.dao.IUsuario;
+import gestion.almacenes.dao.UsuarioImpl;
+import gestion.almacenes.dao.entities.Usuario;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,10 +23,14 @@ public class Database {
 
     private Connection connection;
 
+    public Connection getConnection() {
+        return getConnectionDb();
+    }
+
     //aplicacion ----driver---- base de datos
-    private Connection getConnection() {
+    private Connection getConnectionDb() {
         try {
-            final String URL_DATABASE = "jdbc:ucanaccess://D://data//database.accdb";
+            final String URL_DATABASE = "jdbc:ucanaccess://D:\\2023\\bacsystem\\infrastructure\\docker\\apps\\java\\desktop\\gestion-almacenes\\database\\database.accdb";
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             connection = DriverManager.getConnection(URL_DATABASE);
             if (connection != null) {
@@ -39,7 +46,9 @@ public class Database {
 
     public static void main(String[] args) {
         Database database = new Database();
-        database.selectRows();
+        database.demoIUsuario();
+        
+                
     }
 
     private void insertRow() {
@@ -99,6 +108,19 @@ public class Database {
             System.out.println("ROWS " + row);
         } catch (Exception e) {
         }
+    }
+
+    public void demoIUsuario() {
+        IUsuario iUsuario = new UsuarioImpl();
+        Usuario usuario = new Usuario();
+        usuario.setDni("44910166");
+        usuario.setNombre("David");
+        usuario.setApellidos("Bacilio");
+        usuario.setUsuario("Admin");
+        usuario.setPassword("123");
+        usuario.setCelular("963258741");
+        String result = iUsuario.usuarioCreate(usuario);
+        System.out.println("result " + result);
     }
 
 }
