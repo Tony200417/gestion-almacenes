@@ -75,6 +75,11 @@ public class Proveedor {
     public void setCelular(String celular) {
         this.celular = celular;
     }
-    
+
+    @Override
+    public String toString() {
+        return ruc + " - " + razonSocial;
+    }
+
     
 }

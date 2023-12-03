@@ -10,13 +10,15 @@ package gestion.almacenes.dao.entities;
  * @author Bacilio
  */
 public class Insumo {
+
     private String id;
     private String idProveedor;
     private double precio;
-    private double stockInicial;
+    private int stockInicial;
     private String serie;
-    private String nombre ;
-    private String tipo ;
+    private String nombre;
+    private String tipo;
+    private String unidad;
 
     public String getId() {
         return id;
@@ -42,11 +44,11 @@ public class Insumo {
         this.precio = precio;
     }
 
-    public double getStockInicial() {
+    public int getStockInicial() {
         return stockInicial;
     }
 
-    public void setStockInicial(double stockInicial) {
+    public void setStockInicial(int stockInicial) {
         this.stockInicial = stockInicial;
     }
 
@@ -74,5 +76,12 @@ public class Insumo {
         this.tipo = tipo;
     }
 
-    
+    public String getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(String unidad) {
+        this.unidad = unidad;
+    }
+
 }

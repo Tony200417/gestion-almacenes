@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package gestion.almacenes.dao;
+package gestion.almacenes.datos;
 
 import gestion.almacenes.dao.entities.Usuario;
 import gestion.almacenes.db.Database;
@@ -30,17 +30,19 @@ public class UsuarioImpl implements IUsuario {
     public String usuarioCreate(Usuario usuario) {
 
         StringBuilder QUERY_INSERT = new StringBuilder();
+
         QUERY_INSERT.append("INSERT INTO USUARIOS ");
-        QUERY_INSERT.append("(NOMBRE, APELLIDOS, USUARIO, PASSWORD, CELULAR, DNI) ");
-        QUERY_INSERT.append("VALUES (?,?,?,?,?,?);");
+        QUERY_INSERT.append("(DNI, NOMBRE, APELLIDOS, USUARIO, PASSWORD, CELULAR, FECHA_REGISTRO, FECHA_ACTUALIZAR) ");
+        QUERY_INSERT.append("VALUES (?,?,?,?,?,?,sysdate(),?);");
 
         try (Connection conn = database.getConnection(); PreparedStatement st = conn.prepareStatement(QUERY_INSERT.toString());) {
-            st.setString(1, usuario.getNombre());
-            st.setString(2, usuario.getApellidos());
-            st.setString(3, usuario.getUsuario());
-            st.setString(4, usuario.getPassword());
-            st.setString(5, usuario.getCelular());
-            st.setString(6, usuario.getDni());
+            st.setString(1, usuario.getDni());
+            st.setString(2, usuario.getNombre());
+            st.setString(3, usuario.getApellidos());
+            st.setString(4, usuario.getUsuario());
+            st.setString(5, usuario.getPassword());
+            st.setString(6, usuario.getCelular());
+            st.setDate(7, null);
 
             int rows = st.executeUpdate();
 
@@ -81,15 +83,13 @@ public class UsuarioImpl implements IUsuario {
 
     @Override
     public String usuarioUpdate(Usuario usuario) {
-
         StringBuilder QUERY_UPDATE = new StringBuilder();
         QUERY_UPDATE.append("UPDATE USUARIOS SET ");
         QUERY_UPDATE.append("NOMBRE = ?, ");
         QUERY_UPDATE.append("APELLIDOS = ?, ");
-        //QUERY_UPDATE.append("USUARIO = ?, ");
         QUERY_UPDATE.append("PASSWORD = ?, ");
-        QUERY_UPDATE.append("CELULAR = ? ");
-        //QUERY_UPDATE.append("DNI = ?, ");
+        QUERY_UPDATE.append("CELULAR = ?, ");
+        QUERY_UPDATE.append("FECHA_ACTUALIZAR = sysdate() ");
         QUERY_UPDATE.append("WHERE DNI = ?;");
 
         try (

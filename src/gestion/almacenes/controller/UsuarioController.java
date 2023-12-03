@@ -2,28 +2,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package gestion.almacenes.service.impl;
+package gestion.almacenes.controller;
 
-import gestion.almacenes.dao.IUsuario;
-import gestion.almacenes.dao.UsuarioImpl;
+import gestion.almacenes.datos.IUsuario;
+import gestion.almacenes.datos.UsuarioImpl;
 import gestion.almacenes.dao.entities.Usuario;
-import gestion.almacenes.service.IUsuarioService;
+import java.util.Date;
 import java.util.List;
 
 /**
  *
  * @author cbaciliod
  */
-public class UsuarioService implements IUsuarioService {
+public class UsuarioController implements IUsuarioController {
 
     private final IUsuario iUsuario;
 
-    public UsuarioService() {
+    public UsuarioController() {
         iUsuario = new UsuarioImpl();
     }
 
     @Override
     public String usuarioCreate(Usuario usuario) {
+        usuario.setFechaRegistro(new Date());
         return iUsuario.usuarioCreate(usuario);
     }
 
@@ -34,6 +35,7 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     public String usuarioUpdate(Usuario usuario) {
+        usuario.setFechaActualizar(new Date());
         return iUsuario.usuarioUpdate(usuario);
     }
 

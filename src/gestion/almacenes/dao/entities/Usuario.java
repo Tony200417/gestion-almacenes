@@ -5,17 +5,22 @@
  */
 package gestion.almacenes.dao.entities;
 
+import java.util.Date;
+
 /**
  *
  * @author Bacilio Entidad de base de datos - Usuario
  */
 public class Usuario {
+
     private String dni;
     private String nombre;
     private String apellidos;
     private String usuario;
     private String password;
     private String celular;
+    private Date fechaRegistro;
+    private Date fechaActualizar;
 
     public String getDni() {
         return dni;
@@ -65,11 +70,25 @@ public class Usuario {
         this.celular = celular;
     }
 
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public Date getFechaActualizar() {
+        return fechaActualizar;
+    }
+
+    public void setFechaActualizar(Date fechaActualizar) {
+        this.fechaActualizar = fechaActualizar;
+    }
+
     @Override
     public String toString() {
-        return "Usuario{" + "dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + ", usuario=" + usuario + ", password=" + password + ", celular=" + celular + '}';
+        return "Usuario{" + "dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + ", usuario=" + usuario + ", password=" + password + ", celular=" + celular + ", fechaRegistro=" + fechaRegistro + ", fechaActualizar=" + fechaActualizar + '}';
     }
-    
-    
 
 }

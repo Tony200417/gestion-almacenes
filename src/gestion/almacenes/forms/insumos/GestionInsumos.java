@@ -1,14 +1,17 @@
 package gestion.almacenes.forms.insumos;
 
 import gestion.almacenes.dao.entities.Insumo;
-import gestion.almacenes.dao.entities.Usuario;
-import gestion.almacenes.service.IInsumoService;
-import gestion.almacenes.service.impl.InsumoService;
-import gestion.almacenes.service.impl.UsuarioService;
+import gestion.almacenes.controller.InsumoControllerImpl;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import gestion.almacenes.controller.IInsumoController;
+import gestion.almacenes.controller.IProveedorController;
+import gestion.almacenes.controller.ProveedorControllerImpl;
+import gestion.almacenes.dao.entities.Proveedor;
+import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  *
@@ -16,7 +19,8 @@ import javax.swing.table.TableModel;
  */
 public class GestionInsumos extends javax.swing.JInternalFrame {
 
-    private final IInsumoService iInsumoService;
+    private final IInsumoController iInsumoService;
+    private final IProveedorController iProveedorController;
     private List<Insumo> listaInsumo;
 
     /**
@@ -24,9 +28,16 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
      */
     public GestionInsumos() {
         initComponents();
-        this.iInsumoService = new InsumoService();
-
+        this.iInsumoService = new InsumoControllerImpl();
+        this.iProveedorController = new ProveedorControllerImpl();
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnRegistrar.setEnabled(true);
+        cargarComboProveedores();
+        cargarComboTipoInsumo();
+        cargarComboUnidadMedida();
         cargarListaInsumo();
+        cargarValores();
     }
 
     /**
@@ -48,16 +59,19 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         txtStockInicial = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtTipo = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txtProveedor = new javax.swing.JTextField();
         txtPrecio = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        comboProveedor = new javax.swing.JComboBox<>();
+        comboTipoInsumo = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        comboUnidadMedida = new javax.swing.JComboBox<>();
         panelActions = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         panelLista = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbInsumos = new javax.swing.JTable();
@@ -78,6 +92,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jLabel1.setText("ID Insumo");
 
+        txtidInsumo.setEditable(false);
         txtidInsumo.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         txtidInsumo.setForeground(new java.awt.Color(0, 0, 204));
         txtidInsumo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -93,6 +108,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jLabel3.setText("Serie:");
 
+        txtSerie.setEditable(false);
         txtSerie.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         txtSerie.setForeground(new java.awt.Color(0, 0, 204));
         txtSerie.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -107,16 +123,8 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jLabel5.setText("Tipo:");
 
-        txtTipo.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtTipo.setForeground(new java.awt.Color(0, 0, 204));
-        txtTipo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jLabel7.setText("Proveedor:");
-
-        txtProveedor.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtProveedor.setForeground(new java.awt.Color(0, 0, 204));
-        txtProveedor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         txtPrecio.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         txtPrecio.setForeground(new java.awt.Color(0, 0, 204));
@@ -126,6 +134,16 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         jLabel8.setText("Precio:");
         jLabel8.setName("gestionInsumos"); // NOI18N
 
+        comboProveedor.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        comboProveedor.setForeground(new java.awt.Color(0, 0, 204));
+
+        comboTipoInsumo.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        comboTipoInsumo.setForeground(new java.awt.Color(0, 0, 204));
+
+        jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel9.setText("U/M");
+        jLabel9.setName("gestionInsumos"); // NOI18N
+
         javax.swing.GroupLayout panelDatosLayout = new javax.swing.GroupLayout(panelDatos);
         panelDatos.setLayout(panelDatosLayout);
         panelDatosLayout.setHorizontalGroup(
@@ -134,72 +152,76 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
                 .addGap(24, 24, 24)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDatosLayout.createSequentialGroup()
-                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtidInsumo)
-                            .addComponent(txtStockInicial, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(comboProveedor, 0, 191, Short.MAX_VALUE)
+                            .addComponent(comboTipoInsumo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(panelDatosLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(64, 64, 64)
+                                .addComponent(jLabel8))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelDatosLayout.createSequentialGroup()
                                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtSerie)
-                                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                                    .addGroup(panelDatosLayout.createSequentialGroup()
-                                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel3))
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addGap(22, 22, 22))
-                            .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(txtNombre)
+                            .addComponent(txtSerie)))
+                    .addComponent(txtidInsumo)
                     .addGroup(panelDatosLayout.createSequentialGroup()
                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(170, 170, 170)
-                                .addComponent(jLabel8))
-                            .addComponent(txtProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(txtStockInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel1))
+                            .addGroup(panelDatosLayout.createSequentialGroup()
+                                .addGap(274, 274, 274)
+                                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel9)))
+                            .addGroup(panelDatosLayout.createSequentialGroup()
+                                .addGap(135, 135, 135)
+                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(26, 26, 26))
         );
         panelDatosLayout.setVerticalGroup(
             panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDatosLayout.createSequentialGroup()
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDatosLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDatosLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)))
+                .addContainerGap()
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtidInsumo)
-                    .addComponent(txtNombre))
+                .addComponent(txtidInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtStockInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPrecio))
+                    .addComponent(comboTipoInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtStockInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         panelActions.setBackground(java.awt.SystemColor.inactiveCaption);
@@ -257,23 +279,38 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
             }
         });
 
+        btnCancelar.setBackground(new java.awt.Color(153, 153, 255));
+        btnCancelar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnCancelar.setBorderPainted(false);
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnCancelar.setName("btnRegistrar"); // NOI18N
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelActionsLayout = new javax.swing.GroupLayout(panelActions);
         panelActions.setLayout(panelActionsLayout);
         panelActionsLayout.setHorizontalGroup(
             panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelActionsLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         panelActionsLayout.setVerticalGroup(
             panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelActionsLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(28, 28, 28)
                 .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -281,6 +318,8 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -312,7 +351,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
             panelListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelListaLayout.setVerticalGroup(
@@ -354,133 +393,204 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
+        String rucProveedor = comboProveedor.getItemAt(comboProveedor.getSelectedIndex()).getRuc();
+        String tipoInsumo = comboTipoInsumo.getItemAt(comboTipoInsumo.getSelectedIndex());
+        String unidadMedida = comboUnidadMedida.getItemAt(comboUnidadMedida.getSelectedIndex());
         Insumo insumo = new Insumo();
-        insumo.setId(txtidInsumo.getText());
-        insumo.setIdProveedor(txtProveedor.getText());
-        insumo.setPrecio(Double.valueOf(txtPrecio.getText()));
-        insumo.setStockInicial(Double.valueOf(txtSerie.getText()));
-        insumo.setNombre(txtTipo.getText());
-        insumo.setTipo(txtTipo.getText());
+        insumo.setIdProveedor(rucProveedor);
+        insumo.setTipo(tipoInsumo);
+        insumo.setUnidad(unidadMedida);
+
+        llenarInsumo(insumo);
         String message = iInsumoService.insumoCreate(insumo);
-        JOptionPane.showMessageDialog(null, message, "Registar Usuario", HEIGHT);
+        JOptionPane.showMessageDialog(null, message, "Registar Insumo", HEIGHT);
         limpiarInsumo();
         cargarListaInsumo();
+        cargarValores();
+        cargarComboUnidadMedida();
+        cargarComboProveedores();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
-        Usuario usuario = new Usuario();
-        usuario.setNombre(txtidInsumo.getText());
-        usuario.setApellidos(txtNombre.getText());
-        usuario.setCelular(txtStockInicial.getText());
-        usuario.setDni(txtSerie.getText());
-        usuario.setUsuario(txtTipo.getText());
-        //usuario.setPassword(txtPassword.getText());
-        System.out.println("Usuarui " + usuario.toString());
-        String message = iInsumoService.usuarioUpdate(usuario);
-        JOptionPane.showMessageDialog(null, message, "Actualizar Usuario", HEIGHT);
+        Insumo insumo = new Insumo();
+        String rucProveedor = comboProveedor.getItemAt(comboProveedor.getSelectedIndex()).getRuc();
+        String tipoInsumo = comboTipoInsumo.getItemAt(comboTipoInsumo.getSelectedIndex());
+        String unidadMedida = comboUnidadMedida.getItemAt(comboUnidadMedida.getSelectedIndex());
+        insumo.setIdProveedor(rucProveedor);
+        insumo.setTipo(tipoInsumo);
+        insumo.setUnidad(unidadMedida);
+        llenarInsumo(insumo);
+        String message = iInsumoService.insumoUpdate(insumo);
+        JOptionPane.showMessageDialog(null, message, "Actualizar Insumo", HEIGHT);
         limpiarInsumo();
         cargarListaInsumo();
-
-
+        cargarValores();
+        cargarComboUnidadMedida();
+        cargarComboProveedores();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-
-        String message = iInsumoService.usuarioDelete(txtSerie.getText());
-        JOptionPane.showMessageDialog(null, message, "Elimnar Usuario", HEIGHT);
+        String message = iInsumoService.insumoDelete(txtidInsumo.getText());
+        JOptionPane.showMessageDialog(null, message, "Elimnar Insumo", HEIGHT);
         limpiarInsumo();
         cargarListaInsumo();
+        cargarValores();
+        cargarComboUnidadMedida();
+        cargarComboProveedores();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        String idinsumo = JOptionPane.showInputDialog(null, "Ingrese el DNI");
-        System.out.println("DNI " + idinsumo);
+        String idinsumo = JOptionPane.showInputDialog(null, "Ingrese el Codigo de Insumo");
         Insumo insumo = iInsumoService.insumoGet(idinsumo);
-         System.out.println("Insumo " + insumo);
-        if (insumo== null) {
-            JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Buscar Usuario", HEIGHT);
+
+        if (insumo == null) {
+            JOptionPane.showMessageDialog(null, "Insumo no encontrado", "Insumo Usuario", HEIGHT);
 
         } else {
-            txtSerie.setText(insumo.getSerie());
-            txtSerie.enable(false);
-            txtidInsumo.setText(insumo.getId());
-            txtNombre.setText(insumo.getNombre());
-            txtTipo.setText(insumo.getTipo());
-            txtTipo.enable(false);
-            //txtPassword.setText(usuario.getPassword());
-            txtStockInicial.setText(insumo.getStockInicial());
+            llenarTextFieldsInsumos(insumo);
         }
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void tbInsumosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInsumosMouseClicked
         // TODO add your handling code here:
+        btnActualizar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        btnRegistrar.setEnabled(false);
         int index = tbInsumos.getSelectedRow();
         TableModel tableModel = tbInsumos.getModel();
-
         String id = tableModel.getValueAt(index, 0).toString();
-        String nombre = tableModel.getValueAt(index, 1).toString();
-        String apellido = tableModel.getValueAt(index, 2).toString();
-        String usuario = tableModel.getValueAt(index, 3).toString();
-        String password = tableModel.getValueAt(index, 4).toString();
-        String celular = tableModel.getValueAt(index, 5).toString();
+        String proveedor = tableModel.getValueAt(index, 1).toString();
+        String nombre = tableModel.getValueAt(index, 2).toString();
+        String precio = tableModel.getValueAt(index, 3).toString();
+        String serie = tableModel.getValueAt(index, 4).toString();
+        String tipo = tableModel.getValueAt(index, 5).toString();
+        String stock = tableModel.getValueAt(index, 6).toString();
+        String unidad = tableModel.getValueAt(index, 7).toString();
 
-        txtSerie.setText(dni);
-        txtSerie.enable(false);
-        txtidInsumo.setText(nombre);
-        txtNombre.setText(apellido);
-        txtTipo.setText(usuario);
-        txtTipo.enable(false);
-        //txtPassword.setText(password);
-        txtStockInicial.setText(celular);
+        txtidInsumo.setText(id);
+        txtNombre.setText(nombre);
+        txtPrecio.setText(precio);
+        txtSerie.setText(serie);
+        txtStockInicial.setText(stock);
+        comboUnidadMedida.setSelectedItem(unidad);
+        comboTipoInsumo.setSelectedItem(tipo);
+        comboProveedor.setSelectedItem(proveedor);
     }//GEN-LAST:event_tbInsumosMouseClicked
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        limpiarInsumo();
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnRegistrar.setEnabled(true);
+        cargarComboProveedores();
+        cargarComboTipoInsumo();
+        cargarComboUnidadMedida();
+        cargarValores();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     private void limpiarInsumo() {
+        txtidInsumo.enable(true);
         txtidInsumo.setText("");
-        txtProveedor.setText("");
         txtNombre.setText("");
         txtPrecio.setText("");
         txtSerie.setText("");
         txtSerie.enable(true);
-        txtTipo.setText("");
-        txtTipo.enable(true);
-        //txtPassword.setText("");
         txtStockInicial.setText("");
     }
 
     private void cargarListaInsumo() {
         listaInsumo = this.iInsumoService.insumoRead();
         DefaultTableModel tableInsumo = new DefaultTableModel();
-        tableInsumo.addColumn("DNI");
+        tableInsumo.addColumn("ID");
+        tableInsumo.addColumn("PROVEEDOR");
         tableInsumo.addColumn("NOMBRE");
-        tableInsumo.addColumn("APELLIDO");
-        tableInsumo.addColumn("USUARIO");
-        tableInsumo.addColumn("PASSWORD");
-        tableInsumo.addColumn("CELULAR");
+        tableInsumo.addColumn("PRECIO");
+        tableInsumo.addColumn("SERIE");
+        tableInsumo.addColumn("TIPO");
+        tableInsumo.addColumn("STOCK");
+        tableInsumo.addColumn("UUMM");
 
         for (int i = 0; i < listaInsumo.size(); i++) {
-            tableUsuario.addRow(new Object[]{
+            tableInsumo.addRow(new Object[]{
                 listaInsumo.get(i).getId(),
                 listaInsumo.get(i).getIdProveedor(),
-                listaInsumo.get(i).getApellidos(),
-                listaInsumo.get(i).getUsuario(),
-                listaInsumo.get(i).getPassword(),
-                listaInsumo.get(i).getCelular()
-            });
+                listaInsumo.get(i).getNombre(),
+                listaInsumo.get(i).getPrecio(),
+                listaInsumo.get(i).getSerie(),
+                listaInsumo.get(i).getTipo(),
+                listaInsumo.get(i).getStockInicial(),
+                listaInsumo.get(i).getUnidad(),});
         }
 
-        tbInsumos.setModel(tableUsuario);
-
+        tbInsumos.setModel(tableInsumo);
     }
 
+    private void cargarComboProveedores() {
+        comboProveedor.removeAllItems();
+        List<Proveedor> listaProveedores = iProveedorController.proveedorRead();
+        for (int i = 0; i < listaProveedores.size(); i++) {
+            comboProveedor.addItem(listaProveedores.get(i));
+        }
+    }
+
+    private void cargarComboTipoInsumo() {
+        comboTipoInsumo.removeAllItems();
+        List<String> listaTipoInsumo = new ArrayList<>();
+        listaTipoInsumo.add("Perecible");
+        listaTipoInsumo.add("No Perecible");
+        for (int i = 0; i < listaTipoInsumo.size(); i++) {
+            comboTipoInsumo.addItem(listaTipoInsumo.get(i));
+        }
+    }
+
+    private void cargarComboUnidadMedida() {
+        comboUnidadMedida.removeAllItems();
+        List<String> listaUnidadMedida = new ArrayList<>();
+        listaUnidadMedida.add("KG");
+        listaUnidadMedida.add("Lts");
+        listaUnidadMedida.add("Unid");
+        for (int i = 0; i < listaUnidadMedida.size(); i++) {
+            comboUnidadMedida.addItem(listaUnidadMedida.get(i));
+        }
+    }
+
+    private void llenarInsumo(Insumo insumo) {
+        insumo.setId(txtidInsumo.getText());
+        insumo.setNombre(txtNombre.getText());
+        insumo.setPrecio(Double.parseDouble(txtPrecio.getText()));
+        insumo.setSerie(txtSerie.getText());
+        insumo.setStockInicial(Integer.parseInt(txtStockInicial.getText()));
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnRegistrar.setEnabled(true);
+    }
+
+    private void cargarValores() {
+        txtidInsumo.setText(UUID.randomUUID().toString());
+        txtSerie.setText("I-00" + 1);
+    }
+
+    private void llenarTextFieldsInsumos(Insumo insumo) {
+        txtidInsumo.setText(insumo.getId());
+        txtNombre.setText(insumo.getNombre());
+        txtPrecio.setText(String.valueOf(insumo.getPrecio()));
+        txtSerie.setText(insumo.getSerie());
+        txtStockInicial.setText(String.valueOf(insumo.getStockInicial()));
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JComboBox<Proveedor> comboProveedor;
+    private javax.swing.JComboBox<String> comboTipoInsumo;
+    private javax.swing.JComboBox<String> comboUnidadMedida;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -488,6 +598,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelActions;
     private javax.swing.JPanel panelDatos;
@@ -495,10 +606,8 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
     private javax.swing.JTable tbInsumos;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
-    private javax.swing.JTextField txtProveedor;
     private javax.swing.JTextField txtSerie;
     private javax.swing.JTextField txtStockInicial;
-    private javax.swing.JTextField txtTipo;
     private javax.swing.JTextField txtidInsumo;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,29 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestion.almacenes.service.impl;
+package gestion.almacenes.controller;
 
-import gestion.almacenes.dao.IProveedor;
-import gestion.almacenes.dao.ProveedorImpl;
+import gestion.almacenes.datos.IProveedor;
+import gestion.almacenes.datos.ProveedorImpl;
 import gestion.almacenes.dao.entities.Proveedor;
-import gestion.almacenes.service.IProveedorService;
 import java.util.*;
 
 /**
  *
  * @author Bacilio
  */
-public class ProveedorService implements IProveedorService {
+public class ProveedorControllerImpl implements IProveedorController {
 
     private final IProveedor iProveedor;
 
-    public ProveedorService() {
+    public ProveedorControllerImpl() {
         iProveedor = new ProveedorImpl();
     }
 
     @Override
-    public String proveedorCreate(Proveedor proveedor) {
-        proveedor.setFechaReg(new Date());
+    public String proveedorCreate(Proveedor proveedor) {    
         return iProveedor.proveedorCreate(proveedor);
     }
 
@@ -35,8 +33,7 @@ public class ProveedorService implements IProveedorService {
     }
 
     @Override
-    public String proveedorUpdate(Proveedor proveedor) {
-        proveedor.setFechaAct(new Date());
+    public String proveedorUpdate(Proveedor proveedor) {       
         return iProveedor.proveedorUpdate(proveedor);
     }
 

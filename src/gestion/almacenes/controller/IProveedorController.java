@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package gestion.almacenes.service;
+package gestion.almacenes.controller;
 
 import gestion.almacenes.dao.entities.Proveedor;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author cbaciliod
  */
-public interface IProveedorService {
+public interface IProveedorController {
 
     public String proveedorCreate(Proveedor proveedor);
 

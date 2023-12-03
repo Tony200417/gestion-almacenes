@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestion.almacenes.dao;
+package gestion.almacenes.datos;
 
 import gestion.almacenes.dao.entities.Proveedor;
 import java.util.List;

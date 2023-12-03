@@ -2,23 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package gestion.almacenes.service.impl;
+package gestion.almacenes.controller;
 
-import gestion.almacenes.dao.IInsumo;
-import gestion.almacenes.dao.InsumoImpl;
+import gestion.almacenes.datos.IInsumo;
+import gestion.almacenes.datos.InsumoImpl;
 import gestion.almacenes.dao.entities.Insumo;
-import gestion.almacenes.service.IInsumoService;
 import java.util.List;
 
 /**
  *
  * @author cbaciliod
  */
-public class InsumoService implements IInsumoService {
+public class InsumoControllerImpl implements IInsumoController {
     
     private final IInsumo iInsumo;
     
-    public InsumoService() {
+    public InsumoControllerImpl() {
         iInsumo = new InsumoImpl();
     }
 

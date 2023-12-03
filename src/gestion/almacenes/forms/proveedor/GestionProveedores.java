@@ -1,12 +1,12 @@
 package gestion.almacenes.forms.proveedor;
 
 import gestion.almacenes.dao.entities.Proveedor;
-import gestion.almacenes.service.IProveedorService;
-import gestion.almacenes.service.impl.ProveedorService;
+import gestion.almacenes.controller.ProveedorControllerImpl;
 import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import gestion.almacenes.controller.IProveedorController;
 
 /**
  *
@@ -14,7 +14,7 @@ import javax.swing.table.TableModel;
  */
 public class GestionProveedores extends javax.swing.JInternalFrame {
 
-    private final IProveedorService iProveedorService;
+    private final IProveedorController iProveedorService;
     private List<Proveedor> listaProveedores;
 
     /**
@@ -22,8 +22,9 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
      */
     public GestionProveedores() {
         initComponents();
-        this.iProveedorService = new ProveedorService();
-
+        this.iProveedorService = new ProveedorControllerImpl();
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
         cargarListaProveedor();
     }
 
@@ -47,14 +48,12 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        fechaReg = new com.toedter.calendar.JDateChooser();
         panelActions = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
-        fechaAct = new com.toedter.calendar.JDateChooser();
+        btnCancelar = new javax.swing.JButton();
         panelLista = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProveedores = new javax.swing.JTable();
@@ -107,9 +106,6 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
         txtEmail.setForeground(new java.awt.Color(0, 0, 204));
         txtEmail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel6.setText("Fecha Registro");
-
         javax.swing.GroupLayout panelDatosLayout = new javax.swing.GroupLayout(panelDatos);
         panelDatos.setLayout(panelDatosLayout);
         panelDatosLayout.setHorizontalGroup(
@@ -126,8 +122,7 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(panelDatosLayout.createSequentialGroup()
                                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(fechaReg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelDatosLayout.createSequentialGroup()
                                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,10 +138,8 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                                         .addGap(18, 18, 18)
                                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(panelDatosLayout.createSequentialGroup()
-                                                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel6)
-                                                    .addComponent(jLabel3))
-                                                .addGap(0, 0, Short.MAX_VALUE))
+                                                .addComponent(jLabel3)
+                                                .addGap(0, 164, Short.MAX_VALUE))
                                             .addComponent(txtRuc))))))
                         .addGap(22, 22, 22))))
         );
@@ -158,9 +151,9 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtRsocial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtRsocial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -170,13 +163,9 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                     .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtRuc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6))
+                .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(fechaReg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -235,6 +224,19 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
             }
         });
 
+        btnCancelar.setBackground(new java.awt.Color(153, 153, 255));
+        btnCancelar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnCancelar.setBorderPainted(false);
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnCancelar.setName("btnRegistrar"); // NOI18N
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelActionsLayout = new javax.swing.GroupLayout(panelActions);
         panelActions.setLayout(panelActionsLayout);
         panelActionsLayout.setHorizontalGroup(
@@ -242,7 +244,7 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
             .addGroup(panelActionsLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fechaAct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -253,7 +255,7 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
         panelActionsLayout.setVerticalGroup(
             panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelActionsLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -261,9 +263,9 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(fechaAct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelLista.setBackground(java.awt.SystemColor.inactiveCaption);
@@ -322,7 +324,7 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -336,12 +338,17 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
+
+        if (txtRsocial.getText().isEmpty()
+                || txtDireccion.getText().isEmpty()
+                || txtCelular.getText().isEmpty()
+                || txtRuc.getText().isEmpty()
+                || txtEmail.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campos requeridos", "Registar Usuario", HEIGHT);
+            return;
+        }
         Proveedor proveedor = new Proveedor();
-        proveedor.setRazonSocial(txtRsocial.getText());
-        proveedor.setDireccion(txtDireccion.getText());
-        proveedor.setCelular(txtCelular.getText());
-        proveedor.setRuc(txtRuc.getText());
-        //proveedor.setFechaReg(fechaReg.getDateFormatString());
+        llenarProveedor(proveedor);
         String message = iProveedorService.proveedorCreate(proveedor);
         JOptionPane.showMessageDialog(null, message, "Registar Proveedor", HEIGHT);
         limpiarProveedor();
@@ -351,24 +358,15 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
         Proveedor proveedor = new Proveedor();
-        proveedor.setRazonSocial(txtRsocial.getText());
-        proveedor.setDireccion(txtDireccion.getText());
-        proveedor.setCelular(txtCelular.getText());
-        proveedor.setRuc(txtRuc.getText());
-        proveedor.setEmail(txtEmail.getText());
-       // proveedor.setFechaAct(fechaAct.getDateFormatString());
-        System.out.println("Proveedor " + proveedor.toString());
+        llenarProveedor(proveedor);
         String message = iProveedorService.proveedorUpdate(proveedor);
         JOptionPane.showMessageDialog(null, message, "Actualizar Proveedor", HEIGHT);
         limpiarProveedor();
         cargarListaProveedor();
-
-
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-
         String message = iProveedorService.proveedorDelete(txtRuc.getText());
         JOptionPane.showMessageDialog(null, message, "Elimnar Proveedor", HEIGHT);
         limpiarProveedor();
@@ -377,80 +375,66 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        String ruc = JOptionPane.showInputDialog(null, "Ingrese el ruc");
-        System.out.println("RUC " + ruc);
+        String ruc = JOptionPane.showInputDialog(null, "Ingrese el RUC");
         Proveedor proveedor = iProveedorService.proveedorGet(ruc);
-        System.out.println("Proveedor " + proveedor);
         if (proveedor == null) {
-            JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Buscar Usuario", HEIGHT);
-
+            JOptionPane.showMessageDialog(null, "Proveedor no encontrado", "Buscar Proveedor", HEIGHT);
         } else {
-            txtRuc.setText(proveedor.getRuc());
             txtRuc.enable(false);
-            txtRsocial.setText(proveedor.getRazonSocial());
-            txtDireccion.setText(proveedor.getDireccion());
-            txtEmail.setText(proveedor.getEmail());
-            txtEmail.enable(false);
-            //fechaReg.setDateFormatString(proveedor.getFechaReg());
-            //fechaReg.enable(false);
-            //.setText(proveedor.getPassword());
-            txtCelular.setText(proveedor.getCelular());
+            llenarTextFieldsProveedor(proveedor);
         }
-
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void tbProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProveedoresMouseClicked
         // TODO add your handling code here:
+        btnActualizar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        btnRegistrar.setEnabled(false);
         int index = tbProveedores.getSelectedRow();
         TableModel tableModel = tbProveedores.getModel();
-
         String ruc = tableModel.getValueAt(index, 0).toString();
-        String razon_social = tableModel.getValueAt(index, 1).toString();
+        String razonSocial = tableModel.getValueAt(index, 1).toString();
         String direccion = tableModel.getValueAt(index, 2).toString();
         String email = tableModel.getValueAt(index, 3).toString();
-        //String = tableModel.getValueAt(index, 4).toString();
         String celular = tableModel.getValueAt(index, 4).toString();
-        //Date fechaReg = new Date(tableModel.getValueAt(index, 5).toString());
-        //Date fechaAct = new Date (tableModel.getValueAt(index, 6).toString());
 
-        txtRuc.setText(ruc);
         txtRuc.enable(false);
-        txtRsocial.setText(razon_social);
+        txtRuc.setText(ruc);
+        txtRsocial.setText(razonSocial);
         txtDireccion.setText(direccion);
         txtEmail.setText(email);
-        txtEmail.enable(false);
-        //txtPassword.setText(password);
         txtCelular.setText(celular);
-        //fechaReg.setDate(5);
-        //fechaAct.setDate(6);
-        //fechaReg.(5);
-        //fechaAct.charAt(6);
-
     }//GEN-LAST:event_tbProveedoresMouseClicked
 
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        limpiarProveedor();
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnRegistrar.setEnabled(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     private void limpiarProveedor() {
+        txtRuc.enable(true);
         txtRsocial.setText("");
         txtDireccion.setText("");
         txtRuc.setText("");
-        txtRuc.enable(true);
         txtEmail.setText("");
-        txtEmail.enable(true);
-        //fechaReg.resetKeyboardActions();
-       // fechaAct.resetKeyboardActions();
         txtCelular.setText("");
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnRegistrar.setEnabled(true);
     }
 
     private void cargarListaProveedor() {
+        btnActualizar.setEnabled(false);
         listaProveedores = this.iProveedorService.proveedorRead();
         DefaultTableModel tableProveedores = new DefaultTableModel();
         tableProveedores.addColumn("RUC");
-        tableProveedores.addColumn("RAZON_SACIAL");
+        tableProveedores.addColumn("RAZON SOCIAL");
         tableProveedores.addColumn("DIRECCION");
         tableProveedores.addColumn("EMAIL");
-        //tableProveedores.addColumn("PASSWORD");
         tableProveedores.addColumn("CELULAR");
-        //tableProveedores.addColumn("FECHA_REGISTRO");
-        //tableProveedores.addColumn("FECHA_ACTUALIZACION");
 
         for (int i = 0; i < listaProveedores.size(); i++) {
             tableProveedores.addRow(new Object[]{
@@ -458,31 +442,38 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                 listaProveedores.get(i).getRazonSocial(),
                 listaProveedores.get(i).getDireccion(),
                 listaProveedores.get(i).getEmail(),
-                //listaProveedores.get(i).getPassword(),
-                listaProveedores.get(i).getCelular(),
-                //listaProveedores.get(i).getFechaReg(),
-                //listaProveedores.get(i).getFechaAct()
-                
-            });
+                listaProveedores.get(i).getCelular(),});
         }
-
         tbProveedores.setModel(tableProveedores);
+    }
 
+    private void llenarProveedor(Proveedor proveedor) {
+        proveedor.setRazonSocial(txtRsocial.getText());
+        proveedor.setDireccion(txtDireccion.getText());
+        proveedor.setCelular(txtCelular.getText());
+        proveedor.setRuc(txtRuc.getText());
+        proveedor.setEmail(txtEmail.getText());
+    }
+
+    private void llenarTextFieldsProveedor(Proveedor proveedor) {
+        txtRuc.setText(proveedor.getRuc());
+        txtRsocial.setText(proveedor.getRazonSocial());
+        txtDireccion.setText(proveedor.getDireccion());
+        txtEmail.setText(proveedor.getEmail());
+        txtCelular.setText(proveedor.getCelular());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrar;
-    private com.toedter.calendar.JDateChooser fechaAct;
-    private com.toedter.calendar.JDateChooser fechaReg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelActions;
     private javax.swing.JPanel panelDatos;

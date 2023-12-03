@@ -4,9 +4,9 @@
  */
 package gestion.almacenes.db;
 
-import gestion.almacenes.dao.IUsuario;
-import gestion.almacenes.dao.UsuarioImpl;
-import gestion.almacenes.dao.entities.Usuario;
+import gestion.almacenes.datos.IUsuario;
+import gestion.almacenes.datos.UsuarioImpl;
+import gestion.almacenes.dao.entities.Usuario;  
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;

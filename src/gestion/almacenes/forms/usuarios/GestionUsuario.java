@@ -1,12 +1,12 @@
 package gestion.almacenes.forms.usuarios;
 
 import gestion.almacenes.dao.entities.Usuario;
-import gestion.almacenes.service.IUsuarioService;
-import gestion.almacenes.service.impl.UsuarioService;
+import gestion.almacenes.controller.UsuarioController;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import gestion.almacenes.controller.IUsuarioController;
 
 /**
  *
@@ -14,7 +14,7 @@ import javax.swing.table.TableModel;
  */
 public class GestionUsuario extends javax.swing.JInternalFrame {
 
-    private final IUsuarioService iUsuarioService;
+    private final IUsuarioController iUsuarioService;
     private List<Usuario> listaUsuarios;
 
     /**
@@ -22,8 +22,9 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
      */
     public GestionUsuario() {
         initComponents();
-        this.iUsuarioService = new UsuarioService();
-
+        this.iUsuarioService = new UsuarioController();
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
         cargarListaUsuario();
     }
 
@@ -54,6 +55,7 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         panelLista = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbUsuarios = new javax.swing.JTable();
@@ -234,23 +236,38 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        btnCancelar.setBackground(new java.awt.Color(153, 153, 255));
+        btnCancelar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnCancelar.setBorderPainted(false);
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnCancelar.setName("btnRegistrar"); // NOI18N
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelActionsLayout = new javax.swing.GroupLayout(panelActions);
         panelActions.setLayout(panelActionsLayout);
         panelActionsLayout.setHorizontalGroup(
             panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelActionsLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         panelActionsLayout.setVerticalGroup(
             panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelActionsLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(22, 22, 22)
                 .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -258,6 +275,8 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -317,7 +336,7 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -331,13 +350,18 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
+
+        if (txtNombre.getText().isEmpty()
+                || txtApellido.getText().isEmpty()
+                || txtCelular.getText().isEmpty()
+                || txtDni.getText().isEmpty()
+                || txtPassword.getText().isEmpty()
+                || txtUsuario.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Campos requeridos", "Registar Usuario", HEIGHT);
+            return;
+        }
         Usuario usuario = new Usuario();
-        usuario.setNombre(txtNombre.getText());
-        usuario.setApellidos(txtApellido.getText());
-        usuario.setCelular(txtCelular.getText());
-        usuario.setDni(txtDni.getText());
-        usuario.setUsuario(txtUsuario.getText());
-        usuario.setPassword(txtPassword.getText());
+        llenarUsuario(usuario);
         String message = iUsuarioService.usuarioCreate(usuario);
         JOptionPane.showMessageDialog(null, message, "Registar Usuario", HEIGHT);
         limpiarUsuario();
@@ -347,24 +371,15 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
         Usuario usuario = new Usuario();
-        usuario.setNombre(txtNombre.getText());
-        usuario.setApellidos(txtApellido.getText());
-        usuario.setCelular(txtCelular.getText());
-        usuario.setDni(txtDni.getText());
-        usuario.setUsuario(txtUsuario.getText());
-        usuario.setPassword(txtPassword.getText());
-        System.out.println("Usuarui " + usuario.toString());
+        llenarUsuario(usuario);
         String message = iUsuarioService.usuarioUpdate(usuario);
         JOptionPane.showMessageDialog(null, message, "Actualizar Usuario", HEIGHT);
         limpiarUsuario();
         cargarListaUsuario();
-
-
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-
         String message = iUsuarioService.usuarioDelete(txtDni.getText());
         JOptionPane.showMessageDialog(null, message, "Elimnar Usuario", HEIGHT);
         limpiarUsuario();
@@ -374,30 +389,25 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         String dni = JOptionPane.showInputDialog(null, "Ingrese el DNI");
-        System.out.println("DNI " + dni);
         Usuario usuario = iUsuarioService.usuarioGet(dni);
-         System.out.println("usuario " + usuario);
-        if (usuario== null) {
+        if (usuario == null) {
             JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Buscar Usuario", HEIGHT);
 
         } else {
-            txtDni.setText(usuario.getDni());
             txtDni.enable(false);
-            txtNombre.setText(usuario.getNombre());
-            txtApellido.setText(usuario.getApellidos());
-            txtUsuario.setText(usuario.getUsuario());
             txtUsuario.enable(false);
-            txtPassword.setText(usuario.getPassword());
-            txtCelular.setText(usuario.getCelular());
+            llenarTextFieldsUsuario(usuario);
         }
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void tbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuariosMouseClicked
         // TODO add your handling code here:
+        btnActualizar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        btnRegistrar.setEnabled(false);
         int index = tbUsuarios.getSelectedRow();
         TableModel tableModel = tbUsuarios.getModel();
-
         String dni = tableModel.getValueAt(index, 0).toString();
         String nombre = tableModel.getValueAt(index, 1).toString();
         String apellido = tableModel.getValueAt(index, 2).toString();
@@ -413,7 +423,17 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
         txtUsuario.enable(false);
         txtPassword.setText(password);
         txtCelular.setText(celular);
+
     }//GEN-LAST:event_tbUsuariosMouseClicked
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        limpiarUsuario();
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnRegistrar.setEnabled(true);
+
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void limpiarUsuario() {
         txtNombre.setText("");
@@ -424,9 +444,13 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
         txtUsuario.enable(true);
         txtPassword.setText("");
         txtCelular.setText("");
+        btnActualizar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+        btnRegistrar.setEnabled(true);
     }
 
     private void cargarListaUsuario() {
+        btnActualizar.setEnabled(false);
         listaUsuarios = this.iUsuarioService.usuarioRead();
         DefaultTableModel tableUsuario = new DefaultTableModel();
         tableUsuario.addColumn("DNI");
@@ -446,14 +470,31 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
                 listaUsuarios.get(i).getCelular()
             });
         }
-
         tbUsuarios.setModel(tableUsuario);
+    }
 
+    private void llenarUsuario(Usuario usuario) {
+        usuario.setNombre(txtNombre.getText());
+        usuario.setApellidos(txtApellido.getText());
+        usuario.setCelular(txtCelular.getText());
+        usuario.setDni(txtDni.getText());
+        usuario.setUsuario(txtUsuario.getText());
+        usuario.setPassword(txtPassword.getText());
+    }
+
+    private void llenarTextFieldsUsuario(Usuario usuario) {
+        txtDni.setText(usuario.getDni());
+        txtNombre.setText(usuario.getNombre());
+        txtApellido.setText(usuario.getApellidos());
+        txtUsuario.setText(usuario.getUsuario());
+        txtPassword.setText(usuario.getPassword());
+        txtCelular.setText(usuario.getCelular());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JLabel jLabel1;
