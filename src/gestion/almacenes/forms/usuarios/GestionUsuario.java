@@ -62,7 +62,7 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setTitle("Gestionar Usuarios");
-        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMaximumSize(new java.awt.Dimension(600, 550));
         setMinimumSize(new java.awt.Dimension(600, 550));
         setName("formGestionUsuario"); // NOI18N
@@ -187,7 +187,7 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
         btnRegistrar.setText("Registrar");
         btnRegistrar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnRegistrar.setBorderPainted(false);
-        btnRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnRegistrar.setName("btnRegistrar"); // NOI18N
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,7 +200,7 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
         btnActualizar.setText("Actualizar");
         btnActualizar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnActualizar.setBorderPainted(false);
-        btnActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnActualizar.setName("btnRegistrar"); // NOI18N
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,7 +213,7 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
         btnEliminar.setText("Eliminar");
         btnEliminar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnEliminar.setBorderPainted(false);
-        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnEliminar.setName("btnRegistrar"); // NOI18N
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -226,7 +226,7 @@ public class GestionUsuario extends javax.swing.JInternalFrame {
         btnBuscar.setText("Buscar");
         btnBuscar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnBuscar.setBorderPainted(false);
-        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnBuscar.setName("btnRegistrar"); // NOI18N
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

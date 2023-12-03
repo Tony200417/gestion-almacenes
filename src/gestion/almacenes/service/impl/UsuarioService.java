@@ -14,17 +14,17 @@ import java.util.List;
  *
  * @author cbaciliod
  */
-public class UsuarioService implements IUsuarioService{
-    
+public class UsuarioService implements IUsuarioService {
 
     private final IUsuario iUsuario;
-    public UsuarioService(){
+
+    public UsuarioService() {
         iUsuario = new UsuarioImpl();
     }
-    
+
     @Override
     public String usuarioCreate(Usuario usuario) {
-       return iUsuario.usuarioCreate(usuario);
+        return iUsuario.usuarioCreate(usuario);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class UsuarioService implements IUsuarioService{
 
     @Override
     public String usuarioUpdate(Usuario usuario) {
-       return iUsuario.usuarioUpdate(usuario);
+        return iUsuario.usuarioUpdate(usuario);
     }
 
     @Override
@@ -46,5 +46,5 @@ public class UsuarioService implements IUsuarioService{
     public Usuario usuarioGet(String dni) {
         return iUsuario.usuarioGet(dni);
     }
-    
+
 }
