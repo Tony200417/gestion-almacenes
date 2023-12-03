@@ -1,8 +1,9 @@
 package gestion.almacenes.forms.insumos;
 
-import gestion.almacenes.forms.usuarios.*;
+import gestion.almacenes.dao.entities.Insumo;
 import gestion.almacenes.dao.entities.Usuario;
-import gestion.almacenes.service.IUsuarioService;
+import gestion.almacenes.service.IInsumoService;
+import gestion.almacenes.service.impl.InsumoService;
 import gestion.almacenes.service.impl.UsuarioService;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -15,17 +16,17 @@ import javax.swing.table.TableModel;
  */
 public class GestionInsumos extends javax.swing.JInternalFrame {
 
-    private final IUsuarioService iUsuarioService;
-    private List<Usuario> listaUsuarios;
+    private final IInsumoService iInsumoService;
+    private List<Insumo> listaInsumo;
 
     /**
      * Creates new form GestionUsuario
      */
     public GestionInsumos() {
         initComponents();
-        this.iUsuarioService = new UsuarioService();
+        this.iInsumoService = new InsumoService();
 
-        cargarListaUsuario();
+        cargarListaInsumo();
     }
 
     /**
@@ -39,17 +40,19 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
 
         panelDatos = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
+        txtidInsumo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtApellido = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtDni = new javax.swing.JTextField();
-        txtCelular = new javax.swing.JTextField();
+        txtSerie = new javax.swing.JTextField();
+        txtStockInicial = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JTextField();
+        txtTipo = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtProveedor = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         panelActions = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
@@ -57,13 +60,13 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         btnBuscar = new javax.swing.JButton();
         panelLista = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbUsuarios = new javax.swing.JTable();
+        tbInsumos = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(0, 102, 102));
         setClosable(true);
         setIconifiable(true);
         setTitle("Gestionar Insumos");
-        setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMaximumSize(new java.awt.Dimension(600, 550));
         setMinimumSize(new java.awt.Dimension(600, 550));
         setName("formGestionUsuario"); // NOI18N
@@ -73,47 +76,55 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         panelDatos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel1.setText("Nombre:");
+        jLabel1.setText("ID Insumo");
+
+        txtidInsumo.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtidInsumo.setForeground(new java.awt.Color(0, 0, 204));
+        txtidInsumo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel2.setText("Nombre:");
+        jLabel2.setName("gestionInsumos"); // NOI18N
 
         txtNombre.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         txtNombre.setForeground(new java.awt.Color(0, 0, 204));
         txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel2.setText("Apellidos:");
-        jLabel2.setName("gestionInsumos"); // NOI18N
-
-        txtApellido.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtApellido.setForeground(new java.awt.Color(0, 0, 204));
-        txtApellido.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel3.setText("Dni:");
+        jLabel3.setText("Serie:");
 
-        txtDni.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtDni.setForeground(new java.awt.Color(0, 0, 204));
-        txtDni.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtSerie.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtSerie.setForeground(new java.awt.Color(0, 0, 204));
+        txtSerie.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        txtCelular.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtCelular.setForeground(new java.awt.Color(0, 0, 204));
-        txtCelular.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtStockInicial.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtStockInicial.setForeground(new java.awt.Color(0, 0, 204));
+        txtStockInicial.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel4.setText("Celular:");
+        jLabel4.setText("Stock Inicial");
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel5.setText("Usuario:");
+        jLabel5.setText("Tipo:");
 
-        txtUsuario.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtUsuario.setForeground(new java.awt.Color(0, 0, 204));
-        txtUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtTipo.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtTipo.setForeground(new java.awt.Color(0, 0, 204));
+        txtTipo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel6.setText("Contraseña:");
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel7.setText("Proveedor:");
 
-        txtPassword.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtPassword.setForeground(new java.awt.Color(0, 0, 204));
-        txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtProveedor.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtProveedor.setForeground(new java.awt.Color(0, 0, 204));
+        txtProveedor.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        txtPrecio.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtPrecio.setForeground(new java.awt.Color(0, 0, 204));
+        txtPrecio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel8.setText("Precio:");
+        jLabel8.setName("gestionInsumos"); // NOI18N
 
         javax.swing.GroupLayout panelDatosLayout = new javax.swing.GroupLayout(panelDatos);
         panelDatos.setLayout(panelDatosLayout);
@@ -123,62 +134,72 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
                 .addGap(24, 24, 24)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDatosLayout.createSequentialGroup()
-                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelDatosLayout.createSequentialGroup()
                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                            .addComponent(txtCelular, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(txtidInsumo)
+                            .addComponent(txtStockInicial, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
                                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtSerie)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                                     .addGroup(panelDatosLayout.createSequentialGroup()
                                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel2)
                                             .addComponent(jLabel3))
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txtDni)
-                                    .addComponent(txtPassword))))
-                        .addGap(22, 22, 22))))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(22, 22, 22))
+                            .addGroup(panelDatosLayout.createSequentialGroup()
+                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(panelDatosLayout.createSequentialGroup()
+                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelDatosLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(170, 170, 170)
+                                .addComponent(jLabel8))
+                            .addComponent(txtProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         panelDatosLayout.setVerticalGroup(
             panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDatosLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(panelDatosLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDatosLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtidInsumo)
+                    .addComponent(txtNombre))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtStockInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                    .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecio))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         panelActions.setBackground(java.awt.SystemColor.inactiveCaption);
@@ -189,7 +210,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         btnRegistrar.setText("Registrar");
         btnRegistrar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnRegistrar.setBorderPainted(false);
-        btnRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnRegistrar.setName("btnRegistrar"); // NOI18N
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,7 +223,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         btnActualizar.setText("Actualizar");
         btnActualizar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnActualizar.setBorderPainted(false);
-        btnActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnActualizar.setName("btnRegistrar"); // NOI18N
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,7 +236,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         btnEliminar.setText("Eliminar");
         btnEliminar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnEliminar.setBorderPainted(false);
-        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnEliminar.setName("btnRegistrar"); // NOI18N
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -228,7 +249,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         btnBuscar.setText("Buscar");
         btnBuscar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         btnBuscar.setBorderPainted(false);
-        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnBuscar.setName("btnRegistrar"); // NOI18N
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,7 +287,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         panelLista.setBackground(java.awt.SystemColor.inactiveCaption);
         panelLista.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        tbUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+        tbInsumos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -277,13 +298,13 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tbUsuarios.setUpdateSelectionOnSort(false);
-        tbUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbInsumos.setUpdateSelectionOnSort(false);
+        tbInsumos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbUsuariosMouseClicked(evt);
+                tbInsumosMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbUsuarios);
+        jScrollPane1.setViewportView(tbInsumos);
 
         javax.swing.GroupLayout panelListaLayout = new javax.swing.GroupLayout(panelLista);
         panelLista.setLayout(panelListaLayout);
@@ -291,7 +312,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
             panelListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         panelListaLayout.setVerticalGroup(
@@ -319,8 +340,8 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -333,33 +354,33 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-        Usuario usuario = new Usuario();
-        usuario.setNombre(txtNombre.getText());
-        usuario.setApellidos(txtApellido.getText());
-        usuario.setCelular(txtCelular.getText());
-        usuario.setDni(txtDni.getText());
-        usuario.setUsuario(txtUsuario.getText());
-        usuario.setPassword(txtPassword.getText());
-        String message = iUsuarioService.usuarioCreate(usuario);
+        Insumo insumo = new Insumo();
+        insumo.setId(txtidInsumo.getText());
+        insumo.setIdProveedor(txtProveedor.getText());
+        insumo.setPrecio(Double.valueOf(txtPrecio.getText()));
+        insumo.setStockInicial(Double.valueOf(txtSerie.getText()));
+        insumo.setNombre(txtTipo.getText());
+        insumo.setTipo(txtTipo.getText());
+        String message = iInsumoService.insumoCreate(insumo);
         JOptionPane.showMessageDialog(null, message, "Registar Usuario", HEIGHT);
-        limpiarUsuario();
-        cargarListaUsuario();
+        limpiarInsumo();
+        cargarListaInsumo();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
         Usuario usuario = new Usuario();
-        usuario.setNombre(txtNombre.getText());
-        usuario.setApellidos(txtApellido.getText());
-        usuario.setCelular(txtCelular.getText());
-        usuario.setDni(txtDni.getText());
-        usuario.setUsuario(txtUsuario.getText());
-        usuario.setPassword(txtPassword.getText());
+        usuario.setNombre(txtidInsumo.getText());
+        usuario.setApellidos(txtNombre.getText());
+        usuario.setCelular(txtStockInicial.getText());
+        usuario.setDni(txtSerie.getText());
+        usuario.setUsuario(txtTipo.getText());
+        //usuario.setPassword(txtPassword.getText());
         System.out.println("Usuarui " + usuario.toString());
-        String message = iUsuarioService.usuarioUpdate(usuario);
+        String message = iInsumoService.usuarioUpdate(usuario);
         JOptionPane.showMessageDialog(null, message, "Actualizar Usuario", HEIGHT);
-        limpiarUsuario();
-        cargarListaUsuario();
+        limpiarInsumo();
+        cargarListaInsumo();
 
 
     }//GEN-LAST:event_btnActualizarActionPerformed
@@ -367,89 +388,91 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
 
-        String message = iUsuarioService.usuarioDelete(txtDni.getText());
+        String message = iInsumoService.usuarioDelete(txtSerie.getText());
         JOptionPane.showMessageDialog(null, message, "Elimnar Usuario", HEIGHT);
-        limpiarUsuario();
-        cargarListaUsuario();
+        limpiarInsumo();
+        cargarListaInsumo();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        String dni = JOptionPane.showInputDialog(null, "Ingrese el DNI");
-        System.out.println("DNI " + dni);
-        Usuario usuario = iUsuarioService.usuarioGet(dni);
-         System.out.println("usuario " + usuario);
-        if (usuario== null) {
+        String idinsumo = JOptionPane.showInputDialog(null, "Ingrese el DNI");
+        System.out.println("DNI " + idinsumo);
+        Insumo insumo = iInsumoService.insumoGet(idinsumo);
+         System.out.println("Insumo " + insumo);
+        if (insumo== null) {
             JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Buscar Usuario", HEIGHT);
 
         } else {
-            txtDni.setText(usuario.getDni());
-            txtDni.enable(false);
-            txtNombre.setText(usuario.getNombre());
-            txtApellido.setText(usuario.getApellidos());
-            txtUsuario.setText(usuario.getUsuario());
-            txtUsuario.enable(false);
-            txtPassword.setText(usuario.getPassword());
-            txtCelular.setText(usuario.getCelular());
+            txtSerie.setText(insumo.getSerie());
+            txtSerie.enable(false);
+            txtidInsumo.setText(insumo.getId());
+            txtNombre.setText(insumo.getNombre());
+            txtTipo.setText(insumo.getTipo());
+            txtTipo.enable(false);
+            //txtPassword.setText(usuario.getPassword());
+            txtStockInicial.setText(insumo.getStockInicial());
         }
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void tbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuariosMouseClicked
+    private void tbInsumosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInsumosMouseClicked
         // TODO add your handling code here:
-        int index = tbUsuarios.getSelectedRow();
-        TableModel tableModel = tbUsuarios.getModel();
+        int index = tbInsumos.getSelectedRow();
+        TableModel tableModel = tbInsumos.getModel();
 
-        String dni = tableModel.getValueAt(index, 0).toString();
+        String id = tableModel.getValueAt(index, 0).toString();
         String nombre = tableModel.getValueAt(index, 1).toString();
         String apellido = tableModel.getValueAt(index, 2).toString();
         String usuario = tableModel.getValueAt(index, 3).toString();
         String password = tableModel.getValueAt(index, 4).toString();
         String celular = tableModel.getValueAt(index, 5).toString();
 
-        txtDni.setText(dni);
-        txtDni.enable(false);
-        txtNombre.setText(nombre);
-        txtApellido.setText(apellido);
-        txtUsuario.setText(usuario);
-        txtUsuario.enable(false);
-        txtPassword.setText(password);
-        txtCelular.setText(celular);
-    }//GEN-LAST:event_tbUsuariosMouseClicked
+        txtSerie.setText(dni);
+        txtSerie.enable(false);
+        txtidInsumo.setText(nombre);
+        txtNombre.setText(apellido);
+        txtTipo.setText(usuario);
+        txtTipo.enable(false);
+        //txtPassword.setText(password);
+        txtStockInicial.setText(celular);
+    }//GEN-LAST:event_tbInsumosMouseClicked
 
-    private void limpiarUsuario() {
+    private void limpiarInsumo() {
+        txtidInsumo.setText("");
+        txtProveedor.setText("");
         txtNombre.setText("");
-        txtApellido.setText("");
-        txtDni.setText("");
-        txtDni.enable(true);
-        txtUsuario.setText("");
-        txtUsuario.enable(true);
-        txtPassword.setText("");
-        txtCelular.setText("");
+        txtPrecio.setText("");
+        txtSerie.setText("");
+        txtSerie.enable(true);
+        txtTipo.setText("");
+        txtTipo.enable(true);
+        //txtPassword.setText("");
+        txtStockInicial.setText("");
     }
 
-    private void cargarListaUsuario() {
-        listaUsuarios = this.iUsuarioService.usuarioRead();
-        DefaultTableModel tableUsuario = new DefaultTableModel();
-        tableUsuario.addColumn("DNI");
-        tableUsuario.addColumn("NOMBRE");
-        tableUsuario.addColumn("APELLIDO");
-        tableUsuario.addColumn("USUARIO");
-        tableUsuario.addColumn("PASSWORD");
-        tableUsuario.addColumn("CELULAR");
+    private void cargarListaInsumo() {
+        listaInsumo = this.iInsumoService.insumoRead();
+        DefaultTableModel tableInsumo = new DefaultTableModel();
+        tableInsumo.addColumn("DNI");
+        tableInsumo.addColumn("NOMBRE");
+        tableInsumo.addColumn("APELLIDO");
+        tableInsumo.addColumn("USUARIO");
+        tableInsumo.addColumn("PASSWORD");
+        tableInsumo.addColumn("CELULAR");
 
-        for (int i = 0; i < listaUsuarios.size(); i++) {
+        for (int i = 0; i < listaInsumo.size(); i++) {
             tableUsuario.addRow(new Object[]{
-                listaUsuarios.get(i).getDni(),
-                listaUsuarios.get(i).getNombre(),
-                listaUsuarios.get(i).getApellidos(),
-                listaUsuarios.get(i).getUsuario(),
-                listaUsuarios.get(i).getPassword(),
-                listaUsuarios.get(i).getCelular()
+                listaInsumo.get(i).getId(),
+                listaInsumo.get(i).getIdProveedor(),
+                listaInsumo.get(i).getApellidos(),
+                listaInsumo.get(i).getUsuario(),
+                listaInsumo.get(i).getPassword(),
+                listaInsumo.get(i).getCelular()
             });
         }
 
-        tbUsuarios.setModel(tableUsuario);
+        tbInsumos.setModel(tableUsuario);
 
     }
 
@@ -463,17 +486,19 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelActions;
     private javax.swing.JPanel panelDatos;
     private javax.swing.JPanel panelLista;
-    private javax.swing.JTable tbUsuarios;
-    private javax.swing.JTextField txtApellido;
-    private javax.swing.JTextField txtCelular;
-    private javax.swing.JTextField txtDni;
+    private javax.swing.JTable tbInsumos;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JTextField txtPrecio;
+    private javax.swing.JTextField txtProveedor;
+    private javax.swing.JTextField txtSerie;
+    private javax.swing.JTextField txtStockInicial;
+    private javax.swing.JTextField txtTipo;
+    private javax.swing.JTextField txtidInsumo;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,7 @@
 package gestion.almacenes.forms.principal;
 
 import gestion.almacenes.forms.insumos.GestionInsumos;
+import gestion.almacenes.forms.proveedor.GestionProveedores;
 import gestion.almacenes.forms.usuarios.GestionUsuario;
 import java.awt.Dimension;
 import java.beans.PropertyVetoException;
@@ -18,6 +19,7 @@ public class Principal extends javax.swing.JFrame {
 
     GestionUsuario gestionUsuario = new GestionUsuario();
     GestionInsumos gestionInsumos = new GestionInsumos();
+    GestionProveedores gestionProveedor = new GestionProveedores();
    
     public Principal() {
         initComponents();
@@ -60,9 +62,6 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 204, 51));
         jLabel2.setText("BIENVENIDOS AL ALMACÉN...!!!");
 
-        escritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        escritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
@@ -86,6 +85,8 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addContainerGap(172, Short.MAX_VALUE))
         );
+        escritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        escritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         almacen.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         almacen.setText("ALMACÉN");
@@ -206,7 +207,21 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_gestInsumoActionPerformed
 
     private void gestProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestProveedorActionPerformed
-      
+        if (!gestionProveedor.isShowing()) {
+
+            try {
+                escritorio.add(gestionProveedor);
+                Dimension panelDimension = escritorio.getSize();
+                Dimension registroDimension = gestionProveedor.getSize();
+                gestionProveedor.setLocation((panelDimension.width - registroDimension.width) / 2, (panelDimension.height - registroDimension.height) / 2);
+                gestionProveedor.show();
+                gestionProveedor.setMaximum(false);
+            } catch (PropertyVetoException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+             System.out.println("");
+        }      
     }//GEN-LAST:event_gestProveedorActionPerformed
 
     private void gestReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestReporteActionPerformed

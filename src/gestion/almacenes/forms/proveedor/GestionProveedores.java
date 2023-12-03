@@ -1,10 +1,9 @@
 package gestion.almacenes.forms.proveedor;
 
-import gestion.almacenes.forms.usuarios.*;
-import gestion.almacenes.dao.entities.Usuario;
-import gestion.almacenes.service.IUsuarioService;
-import gestion.almacenes.service.impl.UsuarioService;
-import java.util.List;
+import gestion.almacenes.dao.entities.Proveedor;
+import gestion.almacenes.service.IProveedorService;
+import gestion.almacenes.service.impl.ProveedorService;
+import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -15,17 +14,17 @@ import javax.swing.table.TableModel;
  */
 public class GestionProveedores extends javax.swing.JInternalFrame {
 
-    private final IUsuarioService iUsuarioService;
-    private List<Usuario> listaUsuarios;
+    private final IProveedorService iProveedorService;
+    private List<Proveedor> listaProveedores;
 
     /**
      * Creates new form GestionUsuario
      */
     public GestionProveedores() {
         initComponents();
-        this.iUsuarioService = new UsuarioService();
+        this.iProveedorService = new ProveedorService();
 
-        cargarListaUsuario();
+        cargarListaProveedor();
     }
 
     /**
@@ -39,25 +38,26 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
 
         panelDatos = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
+        txtRsocial = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtApellido = new javax.swing.JTextField();
+        txtDireccion = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtDni = new javax.swing.JTextField();
+        txtRuc = new javax.swing.JTextField();
         txtCelular = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JTextField();
+        fechaReg = new com.toedter.calendar.JDateChooser();
         panelActions = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
+        fechaAct = new com.toedter.calendar.JDateChooser();
         panelLista = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbUsuarios = new javax.swing.JTable();
+        tbProveedores = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(0, 102, 102));
         setClosable(true);
@@ -73,25 +73,25 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
         panelDatos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel1.setText("Nombre:");
+        jLabel1.setText("Razón Social");
 
-        txtNombre.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtNombre.setForeground(new java.awt.Color(0, 0, 204));
-        txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtRsocial.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtRsocial.setForeground(new java.awt.Color(0, 0, 204));
+        txtRsocial.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel2.setText("Appellidos:");
+        jLabel2.setText("Dirección");
 
-        txtApellido.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtApellido.setForeground(new java.awt.Color(0, 0, 204));
-        txtApellido.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtDireccion.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtDireccion.setForeground(new java.awt.Color(0, 0, 204));
+        txtDireccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel3.setText("Dni:");
+        jLabel3.setText("Ruc");
 
-        txtDni.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtDni.setForeground(new java.awt.Color(0, 0, 204));
-        txtDni.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtRuc.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtRuc.setForeground(new java.awt.Color(0, 0, 204));
+        txtRuc.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         txtCelular.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         txtCelular.setForeground(new java.awt.Color(0, 0, 204));
@@ -101,18 +101,14 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
         jLabel4.setText("Celular:");
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel5.setText("Usuario:");
+        jLabel5.setText("Email");
 
-        txtUsuario.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtUsuario.setForeground(new java.awt.Color(0, 0, 204));
-        txtUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtEmail.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(0, 0, 204));
+        txtEmail.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel6.setText("Contraseña:");
-
-        txtPassword.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtPassword.setForeground(new java.awt.Color(0, 0, 204));
-        txtPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jLabel6.setText("Fecha Registro");
 
         javax.swing.GroupLayout panelDatosLayout = new javax.swing.GroupLayout(panelDatos);
         panelDatos.setLayout(panelDatosLayout);
@@ -124,30 +120,34 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                     .addGroup(panelDatosLayout.createSequentialGroup()
                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelDatosLayout.createSequentialGroup()
-                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                            .addComponent(txtCelular, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4))
+                        .addContainerGap(355, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDatosLayout.createSequentialGroup()
+                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(panelDatosLayout.createSequentialGroup()
+                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
+                                .addComponent(fechaReg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelDatosLayout.createSequentialGroup()
+                                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtRsocial, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                    .addComponent(txtCelular, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelDatosLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
                                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6)
-                                            .addComponent(jLabel3))
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txtDni)
-                                    .addComponent(txtPassword))))
+                                            .addComponent(jLabel2)
+                                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(panelDatosLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(panelDatosLayout.createSequentialGroup()
+                                                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel6)
+                                                    .addComponent(jLabel3))
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                            .addComponent(txtRuc))))))
                         .addGap(22, 22, 22))))
         );
         panelDatosLayout.setVerticalGroup(
@@ -159,8 +159,8 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRsocial, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -168,15 +168,15 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRuc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(fechaReg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -241,11 +241,13 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
             panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelActionsLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fechaAct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         panelActionsLayout.setVerticalGroup(
@@ -259,13 +261,15 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                 .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(fechaAct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
 
         panelLista.setBackground(java.awt.SystemColor.inactiveCaption);
         panelLista.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        tbUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+        tbProveedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -276,13 +280,13 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tbUsuarios.setUpdateSelectionOnSort(false);
-        tbUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+        tbProveedores.setUpdateSelectionOnSort(false);
+        tbProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbUsuariosMouseClicked(evt);
+                tbProveedoresMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tbUsuarios);
+        jScrollPane1.setViewportView(tbProveedores);
 
         javax.swing.GroupLayout panelListaLayout = new javax.swing.GroupLayout(panelLista);
         panelLista.setLayout(panelListaLayout);
@@ -318,7 +322,7 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -332,33 +336,32 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-        Usuario usuario = new Usuario();
-        usuario.setNombre(txtNombre.getText());
-        usuario.setApellidos(txtApellido.getText());
-        usuario.setCelular(txtCelular.getText());
-        usuario.setDni(txtDni.getText());
-        usuario.setUsuario(txtUsuario.getText());
-        usuario.setPassword(txtPassword.getText());
-        String message = iUsuarioService.usuarioCreate(usuario);
-        JOptionPane.showMessageDialog(null, message, "Registar Usuario", HEIGHT);
-        limpiarUsuario();
-        cargarListaUsuario();
+        Proveedor proveedor = new Proveedor();
+        proveedor.setRazonSocial(txtRsocial.getText());
+        proveedor.setDireccion(txtDireccion.getText());
+        proveedor.setCelular(txtCelular.getText());
+        proveedor.setRuc(txtRuc.getText());
+        //proveedor.setFechaReg(fechaReg.getDateFormatString());
+        String message = iProveedorService.proveedorCreate(proveedor);
+        JOptionPane.showMessageDialog(null, message, "Registar Proveedor", HEIGHT);
+        limpiarProveedor();
+        cargarListaProveedor();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
-        Usuario usuario = new Usuario();
-        usuario.setNombre(txtNombre.getText());
-        usuario.setApellidos(txtApellido.getText());
-        usuario.setCelular(txtCelular.getText());
-        usuario.setDni(txtDni.getText());
-        usuario.setUsuario(txtUsuario.getText());
-        usuario.setPassword(txtPassword.getText());
-        System.out.println("Usuarui " + usuario.toString());
-        String message = iUsuarioService.usuarioUpdate(usuario);
-        JOptionPane.showMessageDialog(null, message, "Actualizar Usuario", HEIGHT);
-        limpiarUsuario();
-        cargarListaUsuario();
+        Proveedor proveedor = new Proveedor();
+        proveedor.setRazonSocial(txtRsocial.getText());
+        proveedor.setDireccion(txtDireccion.getText());
+        proveedor.setCelular(txtCelular.getText());
+        proveedor.setRuc(txtRuc.getText());
+        proveedor.setEmail(txtEmail.getText());
+       // proveedor.setFechaAct(fechaAct.getDateFormatString());
+        System.out.println("Proveedor " + proveedor.toString());
+        String message = iProveedorService.proveedorUpdate(proveedor);
+        JOptionPane.showMessageDialog(null, message, "Actualizar Proveedor", HEIGHT);
+        limpiarProveedor();
+        cargarListaProveedor();
 
 
     }//GEN-LAST:event_btnActualizarActionPerformed
@@ -366,89 +369,104 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
 
-        String message = iUsuarioService.usuarioDelete(txtDni.getText());
-        JOptionPane.showMessageDialog(null, message, "Elimnar Usuario", HEIGHT);
-        limpiarUsuario();
-        cargarListaUsuario();
+        String message = iProveedorService.proveedorDelete(txtRuc.getText());
+        JOptionPane.showMessageDialog(null, message, "Elimnar Proveedor", HEIGHT);
+        limpiarProveedor();
+        cargarListaProveedor();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        String dni = JOptionPane.showInputDialog(null, "Ingrese el DNI");
-        System.out.println("DNI " + dni);
-        Usuario usuario = iUsuarioService.usuarioGet(dni);
-         System.out.println("usuario " + usuario);
-        if (usuario== null) {
+        String ruc = JOptionPane.showInputDialog(null, "Ingrese el ruc");
+        System.out.println("RUC " + ruc);
+        Proveedor proveedor = iProveedorService.proveedorGet(ruc);
+        System.out.println("Proveedor " + proveedor);
+        if (proveedor == null) {
             JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Buscar Usuario", HEIGHT);
 
         } else {
-            txtDni.setText(usuario.getDni());
-            txtDni.enable(false);
-            txtNombre.setText(usuario.getNombre());
-            txtApellido.setText(usuario.getApellidos());
-            txtUsuario.setText(usuario.getUsuario());
-            txtUsuario.enable(false);
-            txtPassword.setText(usuario.getPassword());
-            txtCelular.setText(usuario.getCelular());
+            txtRuc.setText(proveedor.getRuc());
+            txtRuc.enable(false);
+            txtRsocial.setText(proveedor.getRazonSocial());
+            txtDireccion.setText(proveedor.getDireccion());
+            txtEmail.setText(proveedor.getEmail());
+            txtEmail.enable(false);
+            //fechaReg.setDateFormatString(proveedor.getFechaReg());
+            //fechaReg.enable(false);
+            //.setText(proveedor.getPassword());
+            txtCelular.setText(proveedor.getCelular());
         }
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void tbUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbUsuariosMouseClicked
+    private void tbProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbProveedoresMouseClicked
         // TODO add your handling code here:
-        int index = tbUsuarios.getSelectedRow();
-        TableModel tableModel = tbUsuarios.getModel();
+        int index = tbProveedores.getSelectedRow();
+        TableModel tableModel = tbProveedores.getModel();
 
-        String dni = tableModel.getValueAt(index, 0).toString();
-        String nombre = tableModel.getValueAt(index, 1).toString();
-        String apellido = tableModel.getValueAt(index, 2).toString();
-        String usuario = tableModel.getValueAt(index, 3).toString();
-        String password = tableModel.getValueAt(index, 4).toString();
-        String celular = tableModel.getValueAt(index, 5).toString();
+        String ruc = tableModel.getValueAt(index, 0).toString();
+        String razon_social = tableModel.getValueAt(index, 1).toString();
+        String direccion = tableModel.getValueAt(index, 2).toString();
+        String email = tableModel.getValueAt(index, 3).toString();
+        //String = tableModel.getValueAt(index, 4).toString();
+        String celular = tableModel.getValueAt(index, 4).toString();
+        //Date fechaReg = new Date(tableModel.getValueAt(index, 5).toString());
+        //Date fechaAct = new Date (tableModel.getValueAt(index, 6).toString());
 
-        txtDni.setText(dni);
-        txtDni.enable(false);
-        txtNombre.setText(nombre);
-        txtApellido.setText(apellido);
-        txtUsuario.setText(usuario);
-        txtUsuario.enable(false);
-        txtPassword.setText(password);
+        txtRuc.setText(ruc);
+        txtRuc.enable(false);
+        txtRsocial.setText(razon_social);
+        txtDireccion.setText(direccion);
+        txtEmail.setText(email);
+        txtEmail.enable(false);
+        //txtPassword.setText(password);
         txtCelular.setText(celular);
-    }//GEN-LAST:event_tbUsuariosMouseClicked
+        //fechaReg.setDate(5);
+        //fechaAct.setDate(6);
+        //fechaReg.(5);
+        //fechaAct.charAt(6);
 
-    private void limpiarUsuario() {
-        txtNombre.setText("");
-        txtApellido.setText("");
-        txtDni.setText("");
-        txtDni.enable(true);
-        txtUsuario.setText("");
-        txtUsuario.enable(true);
-        txtPassword.setText("");
+    }//GEN-LAST:event_tbProveedoresMouseClicked
+
+    private void limpiarProveedor() {
+        txtRsocial.setText("");
+        txtDireccion.setText("");
+        txtRuc.setText("");
+        txtRuc.enable(true);
+        txtEmail.setText("");
+        txtEmail.enable(true);
+        //fechaReg.resetKeyboardActions();
+       // fechaAct.resetKeyboardActions();
         txtCelular.setText("");
     }
 
-    private void cargarListaUsuario() {
-        listaUsuarios = this.iUsuarioService.usuarioRead();
-        DefaultTableModel tableUsuario = new DefaultTableModel();
-        tableUsuario.addColumn("DNI");
-        tableUsuario.addColumn("NOMBRE");
-        tableUsuario.addColumn("APELLIDO");
-        tableUsuario.addColumn("USUARIO");
-        tableUsuario.addColumn("PASSWORD");
-        tableUsuario.addColumn("CELULAR");
+    private void cargarListaProveedor() {
+        listaProveedores = this.iProveedorService.proveedorRead();
+        DefaultTableModel tableProveedores = new DefaultTableModel();
+        tableProveedores.addColumn("RUC");
+        tableProveedores.addColumn("RAZON_SACIAL");
+        tableProveedores.addColumn("DIRECCION");
+        tableProveedores.addColumn("EMAIL");
+        //tableProveedores.addColumn("PASSWORD");
+        tableProveedores.addColumn("CELULAR");
+        //tableProveedores.addColumn("FECHA_REGISTRO");
+        //tableProveedores.addColumn("FECHA_ACTUALIZACION");
 
-        for (int i = 0; i < listaUsuarios.size(); i++) {
-            tableUsuario.addRow(new Object[]{
-                listaUsuarios.get(i).getDni(),
-                listaUsuarios.get(i).getNombre(),
-                listaUsuarios.get(i).getApellidos(),
-                listaUsuarios.get(i).getUsuario(),
-                listaUsuarios.get(i).getPassword(),
-                listaUsuarios.get(i).getCelular()
+        for (int i = 0; i < listaProveedores.size(); i++) {
+            tableProveedores.addRow(new Object[]{
+                listaProveedores.get(i).getRuc(),
+                listaProveedores.get(i).getRazonSocial(),
+                listaProveedores.get(i).getDireccion(),
+                listaProveedores.get(i).getEmail(),
+                //listaProveedores.get(i).getPassword(),
+                listaProveedores.get(i).getCelular(),
+                //listaProveedores.get(i).getFechaReg(),
+                //listaProveedores.get(i).getFechaAct()
+                
             });
         }
 
-        tbUsuarios.setModel(tableUsuario);
+        tbProveedores.setModel(tableProveedores);
 
     }
 
@@ -457,6 +475,8 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrar;
+    private com.toedter.calendar.JDateChooser fechaAct;
+    private com.toedter.calendar.JDateChooser fechaReg;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -467,12 +487,11 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
     private javax.swing.JPanel panelActions;
     private javax.swing.JPanel panelDatos;
     private javax.swing.JPanel panelLista;
-    private javax.swing.JTable tbUsuarios;
-    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTable tbProveedores;
     private javax.swing.JTextField txtCelular;
-    private javax.swing.JTextField txtDni;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtRsocial;
+    private javax.swing.JTextField txtRuc;
     // End of variables declaration//GEN-END:variables
 }

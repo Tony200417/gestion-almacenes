@@ -13,16 +13,14 @@ import java.util.List;
  */
 public interface IInsumo {
 
-    public String insumoCreate(Insumo usuario);
+public String insumoCreate(Insumo insumo);
 
     public List<Insumo> insumoRead();
 
-    public String insumoUpdate(Insumo usuario);
+    public String insumoUpdate(Insumo insumo);
 
-    public String insumoDelete(String idDni);
+    public String insumoDelete(String idinsumo);
 
-    public Insumo insumoGet(String idDni);
-
-    public String getMessage();
+    public Insumo insumoGet(String idinsumo);
 
 }
