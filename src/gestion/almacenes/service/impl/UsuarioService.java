@@ -8,12 +8,14 @@ import gestion.almacenes.dao.IUsuario;
 import gestion.almacenes.dao.UsuarioImpl;
 import gestion.almacenes.dao.entities.Usuario;
 import gestion.almacenes.service.IUsuarioService;
+import java.util.List;
 
 /**
  *
  * @author cbaciliod
  */
 public class UsuarioService implements IUsuarioService{
+    
 
     private final IUsuario iUsuario;
     public UsuarioService(){
@@ -23,6 +25,11 @@ public class UsuarioService implements IUsuarioService{
     @Override
     public String usuarioCreate(Usuario usuario) {
        return iUsuario.usuarioCreate(usuario);
+    }
+
+    @Override
+    public List<Usuario> usuarioRead() {
+        return iUsuario.usuarioRead();
     }
     
 }

@@ -8,6 +8,8 @@ import gestion.almacenes.dao.entities.Usuario;
 import gestion.almacenes.db.Database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,9 +59,32 @@ public class UsuarioImpl implements IUsuario {
 
     @Override
     public List<Usuario> usuarioRead() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List <Usuario> usuarios = new ArrayList<>();
+        final String QUERY_SELECT = "SELECT * FROM USUARIOS";
+        try (
+                //1.-OBTENER LA CONEXION A BASE DE DATOS
+                Connection conn = database.getConnection(); //2.-PREPARAR LA CONSULTA
+                 PreparedStatement ps = conn.prepareStatement(QUERY_SELECT); //3.-EJECUTAR LA CONSULTA
+                 ResultSet rs = ps.executeQuery();) {
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                
+                usuario.setNombre(QUERY_SELECT);
+                usuario.setApellidos(rs.getString("APELLIDOS"));
+                
+                usuarios.add(usuario);
+                
+                System.out.println("USUARIOS " + usuario.getApellidos());
+                
+            }
+        } catch (Exception e) {
+            
+        }
+        
+        System.out.println("CANTIDAD " + usuarios.size());
+        return usuarios;
     }
-
+   
     @Override
     public String usuarioUpdate(Usuario usuario) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

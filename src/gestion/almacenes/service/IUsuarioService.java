@@ -5,6 +5,7 @@
 package gestion.almacenes.service;
 
 import gestion.almacenes.dao.entities.Usuario;
+import java.util.List;
 
 /**
  *
@@ -13,4 +14,5 @@ import gestion.almacenes.dao.entities.Usuario;
 public interface IUsuarioService {
     
     public String usuarioCreate(Usuario usuario);
+    public List<Usuario> usuarioRead();
 }

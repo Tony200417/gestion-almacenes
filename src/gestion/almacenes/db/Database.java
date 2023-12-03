@@ -12,6 +12,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,7 +32,8 @@ public class Database {
     //aplicacion ----driver---- base de datos
     private Connection getConnectionDb() {
         try {
-            final String URL_DATABASE = "jdbc:ucanaccess://D:\\2023\\bacsystem\\infrastructure\\docker\\apps\\java\\desktop\\gestion-almacenes\\database\\database.accdb";
+            //final String URL_DATABASE = "jdbc:ucanaccess://D:\\2023\\bacsystem\\infrastructure\\docker\\apps\\java\\desktop\\gestion-almacenes\\database\\database.accdb";
+            final String URL_DATABASE = "jdbc:ucanaccess://D:\\jose\\github\\java\\gestion-almacenes\\database\\database.accdb";
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             connection = DriverManager.getConnection(URL_DATABASE);
             if (connection != null) {
@@ -46,7 +49,7 @@ public class Database {
 
     public static void main(String[] args) {
         Database database = new Database();
-        database.demoIUsuario();
+        database.selectRows();
         
                 
     }
@@ -67,17 +70,28 @@ public class Database {
 
     private void selectRows() {
         Database database = new Database();
-        final String QUERY_SELECT = "SELECT * FROM PERSONA";
+        List <Usuario> usuarios = new ArrayList<>();
+        final String QUERY_SELECT = "SELECT * FROM USUARIOS";
         try (
                 //1.-OBTENER LA CONEXION A BASE DE DATOS
                 Connection conn = database.getConnection(); //2.-PREPARAR LA CONSULTA
                  PreparedStatement ps = conn.prepareStatement(QUERY_SELECT); //3.-EJECUTAR LA CONSULTA
                  ResultSet rs = ps.executeQuery();) {
             while (rs.next()) {
-                System.out.println("PERSONAS " + rs.getString("name"));
+                Usuario usuario = new Usuario();
+                
+                usuario.setNombre(QUERY_SELECT);
+                usuario.setApellidos(rs.getString("APELLIDOS"));
+                
+                usuarios.add(usuario);
+                
+                System.out.println("USUARIOS " + usuario.getApellidos());
+                
             }
         } catch (Exception e) {
+            
         }
+        System.out.println("CANTIDAD " + usuarios.size());
     }
 
     private void updateRow() {

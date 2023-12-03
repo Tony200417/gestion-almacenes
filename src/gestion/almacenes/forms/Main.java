@@ -21,6 +21,9 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         iUsuarioService = new UsuarioService();
+        
+        System.out.println("LISTA " + iUsuarioService.usuarioRead().size());
+        //tabUsuario.set
     }
 
     @SuppressWarnings("unchecked")
@@ -87,7 +90,7 @@ public class Main extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         jSeparator4 = new javax.swing.JSeparator();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tabUsuario = new javax.swing.JTable();
         jLabel17 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jButton16 = new javax.swing.JButton();
@@ -536,7 +539,6 @@ public class Main extends javax.swing.JFrame {
         frmRegisIns.setTitle("GESTIÓN DE INSUMO");
         frmRegisIns.setBounds(new java.awt.Rectangle(650, 200, 0, 0));
         frmRegisIns.setMinimumSize(new java.awt.Dimension(1100, 460));
-        frmRegisIns.setPreferredSize(new java.awt.Dimension(1100, 460));
 
         jPanel4.setBackground(new java.awt.Color(102, 102, 0));
 
@@ -692,7 +694,6 @@ public class Main extends javax.swing.JFrame {
         frmUsuario.setTitle("GESTIÓN DE USUARIO");
         frmUsuario.setBounds(new java.awt.Rectangle(450, 400, 0, 0));
         frmUsuario.setMinimumSize(new java.awt.Dimension(1250, 490));
-        frmUsuario.setPreferredSize(new java.awt.Dimension(1250, 490));
 
         jPanel8.setBackground(new java.awt.Color(0, 51, 0));
 
@@ -701,7 +702,7 @@ public class Main extends javax.swing.JFrame {
         jSeparator4.setForeground(new java.awt.Color(0, 51, 0));
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tabUsuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -712,7 +713,7 @@ public class Main extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(tabUsuario);
 
         jLabel17.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 12)); // NOI18N
         jLabel17.setText("DNI");
@@ -948,7 +949,6 @@ public class Main extends javax.swing.JFrame {
         frmRegUser.setTitle("REGISTRAR USUARIO");
         frmRegUser.setBounds(new java.awt.Rectangle(800, 200, 0, 0));
         frmRegUser.setMinimumSize(new java.awt.Dimension(680, 400));
-        frmRegUser.setPreferredSize(new java.awt.Dimension(680, 400));
 
         jPanel12.setBackground(new java.awt.Color(51, 0, 153));
 
@@ -1630,7 +1630,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField15;
@@ -1646,6 +1645,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JFrame regEntrada;
     private javax.swing.JMenuItem regSalid;
     private javax.swing.JFrame regSalida;
+    private javax.swing.JTable tabUsuario;
     private javax.swing.JTextField txtUserApellidos;
     private javax.swing.JTextField txtUserCelular;
     private javax.swing.JTextField txtUserDni;
