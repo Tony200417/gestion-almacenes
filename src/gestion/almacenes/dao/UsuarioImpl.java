@@ -28,7 +28,7 @@ public class UsuarioImpl implements IUsuario {
     @Override
 
     public String usuarioCreate(Usuario usuario) {
-        
+
         StringBuilder QUERY_INSERT = new StringBuilder();
         QUERY_INSERT.append("INSERT INTO USUARIOS ");
         QUERY_INSERT.append("(NOMBRE, APELLIDOS, USUARIO, PASSWORD, CELULAR, DNI) ");
@@ -46,8 +46,8 @@ public class UsuarioImpl implements IUsuario {
 
             if (rows == 0) {
                 message = "0 filas afectadas";
-            }else{
-                 message = "Usuario registrado";
+            } else {
+                message = "Usuario registrado";
             }
             System.out.println("QUERY_INSERT " + message);
         } catch (Exception e) {
@@ -59,45 +59,111 @@ public class UsuarioImpl implements IUsuario {
 
     @Override
     public List<Usuario> usuarioRead() {
-        List <Usuario> usuarios = new ArrayList<>();
+        List<Usuario> usuarios = new ArrayList<>();
         final String QUERY_SELECT = "SELECT * FROM USUARIOS";
         try (
-                //1.-OBTENER LA CONEXION A BASE DE DATOS
-                Connection conn = database.getConnection(); //2.-PREPARAR LA CONSULTA
-                 PreparedStatement ps = conn.prepareStatement(QUERY_SELECT); //3.-EJECUTAR LA CONSULTA
-                 ResultSet rs = ps.executeQuery();) {
+                Connection conn = database.getConnection(); PreparedStatement ps = conn.prepareStatement(QUERY_SELECT); ResultSet rs = ps.executeQuery();) {
             while (rs.next()) {
                 Usuario usuario = new Usuario();
-                
-                usuario.setNombre(QUERY_SELECT);
+                usuario.setNombre(rs.getString("NOMBRE"));
                 usuario.setApellidos(rs.getString("APELLIDOS"));
-                
+                usuario.setCelular(rs.getString("CELULAR"));
+                usuario.setDni(rs.getString("DNI"));
+                usuario.setUsuario(rs.getString("USUARIO"));
+                usuario.setPassword(rs.getString("PASSWORD"));
                 usuarios.add(usuario);
-                
-                System.out.println("USUARIOS " + usuario.getApellidos());
-                
             }
         } catch (Exception e) {
-            
+            message = e.getMessage();
         }
-        
-        System.out.println("CANTIDAD " + usuarios.size());
         return usuarios;
     }
-   
+
     @Override
     public String usuarioUpdate(Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+        StringBuilder QUERY_UPDATE = new StringBuilder();
+        QUERY_UPDATE.append("UPDATE USUARIOS SET ");
+        QUERY_UPDATE.append("NOMBRE = ?, ");
+        QUERY_UPDATE.append("APELLIDOS = ?, ");
+        //QUERY_UPDATE.append("USUARIO = ?, ");
+        QUERY_UPDATE.append("PASSWORD = ?, ");
+        QUERY_UPDATE.append("CELULAR = ? ");
+        //QUERY_UPDATE.append("DNI = ?, ");
+        QUERY_UPDATE.append("WHERE DNI = ?;");
+
+        try (
+                Connection conn = database.getConnection(); PreparedStatement ps = conn.prepareStatement(QUERY_UPDATE.toString());) {
+            ps.setString(1, usuario.getNombre());
+            ps.setString(2, usuario.getApellidos());
+            //ps.setString(3, usuario.getUsuario());
+            ps.setString(3, usuario.getPassword());
+            ps.setString(4, usuario.getCelular());
+            //ps.setString(6, usuario.getDni());
+            ps.setString(5, usuario.getDni());
+
+            int rows = ps.executeUpdate();
+            if (rows == 0) {
+                message = "0 filas afectadas";
+            } else {
+                message = "Usuario actualizado";
+            }
+            System.out.println("QUERY_INSERT " + message);
+        } catch (Exception e) {
+            message = e.getMessage();
+        }
+        return message;
     }
 
     @Override
     public String usuarioDelete(String idDni) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        final String QUERY_DELETE = "DELETE FROM USUARIOS WHERE DNI = ?;";
+        try (
+                Connection conn = database.getConnection(); PreparedStatement ps = conn.prepareStatement(QUERY_DELETE);) {
+
+            ps.setString(1, idDni);
+            int rows = ps.executeUpdate();
+            if (rows == 0) {
+                message = "0 filas afectadas";
+            } else {
+                message = "Usuario eliminado";
+            }
+        } catch (Exception e) {
+            message = e.getMessage();
+        }
+        return message;
     }
 
     @Override
     public Usuario usuarioGet(String idDni) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        StringBuilder QUERY_SELECT = new StringBuilder();
+        QUERY_SELECT.append("SELECT DNI, NOMBRE, APELLIDOS, USUARIO, PASSWORD, CELULAR ");
+        QUERY_SELECT.append("FROM USUARIOS ");
+        QUERY_SELECT.append("WHERE DNI = ?");
+
+        Usuario usuario = null;
+        try (
+                Connection conn = database.getConnection(); PreparedStatement ps = conn.prepareStatement(QUERY_SELECT.toString());) {
+            ps.setString(1, idDni);
+
+            try (ResultSet rs = ps.executeQuery();) {
+                if (rs.next()) {
+                    usuario = new Usuario();
+                    usuario.setNombre(rs.getString("NOMBRE"));
+                    usuario.setApellidos(rs.getString("APELLIDOS"));
+                    usuario.setCelular(rs.getString("CELULAR"));
+                    usuario.setDni(rs.getString("DNI"));
+                    usuario.setUsuario(rs.getString("USUARIO"));
+                    usuario.setPassword(rs.getString("PASSWORD"));
+                }
+            } catch (Exception e) {
+                message = e.getMessage();
+            }
+
+        } catch (Exception e) {
+            message = e.getMessage();
+        }
+        return usuario;
     }
 
     @Override

@@ -31,5 +31,20 @@ public class UsuarioService implements IUsuarioService{
     public List<Usuario> usuarioRead() {
         return iUsuario.usuarioRead();
     }
+
+    @Override
+    public String usuarioUpdate(Usuario usuario) {
+       return iUsuario.usuarioUpdate(usuario);
+    }
+
+    @Override
+    public String usuarioDelete(String dni) {
+        return iUsuario.usuarioDelete(dni);
+    }
+
+    @Override
+    public Usuario usuarioGet(String dni) {
+        return iUsuario.usuarioGet(dni);
+    }
     
 }

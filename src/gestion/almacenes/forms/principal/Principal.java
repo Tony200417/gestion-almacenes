@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gestion.almacenes.forms;
+package gestion.almacenes.forms.principal;
 
+import gestion.almacenes.forms.insumos.GestionInsumos;
+import gestion.almacenes.forms.usuarios.GestionUsuario;
 import java.awt.Dimension;
 import java.beans.PropertyVetoException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,12 +17,8 @@ import javax.swing.JOptionPane;
 public class Principal extends javax.swing.JFrame {
 
     GestionUsuario gestionUsuario = new GestionUsuario();
-    GestionInsumo gestionInsumo = new GestionInsumo();
-    GestionProveedor gestionProveedor = new GestionProveedor();
-    GestionReporte gestionReporte = new GestionReporte();
-    RegistrarEntrada registrarEntrada = new RegistrarEntrada();
-    RegistrarSalida registrarSalida = new RegistrarSalida();
-    
+    GestionInsumos gestionInsumos = new GestionInsumos();
+   
     public Principal() {
         initComponents();
     }
@@ -52,7 +47,10 @@ public class Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MENU PRINCIPAL");
-        setPreferredSize(new java.awt.Dimension(1100, 850));
+        setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
+        setForeground(java.awt.Color.white);
+        setPreferredSize(new java.awt.Dimension(1296, 761));
+        setResizable(false);
 
         escritorio.setBackground(new java.awt.Color(0, 153, 153));
 
@@ -61,6 +59,9 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 2, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 204, 51));
         jLabel2.setText("BIENVENIDOS AL ALMACÉN...!!!");
+
+        escritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        escritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
@@ -85,8 +86,6 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addContainerGap(172, Short.MAX_VALUE))
         );
-        escritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        escritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         almacen.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         almacen.setText("ALMACÉN");
@@ -163,39 +162,11 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void regEntraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regEntraActionPerformed
-        if (!registrarEntrada.isShowing()) {
-
-            try {
-                escritorio.add(registrarEntrada);
-                Dimension panelDimension = escritorio.getSize();
-                Dimension registroDimension = registrarEntrada.getSize();
-                registrarEntrada.setLocation((panelDimension.width - registroDimension.width) / 2, (panelDimension.height - registroDimension.height) / 2);
-                registrarEntrada.show();
-                registrarEntrada.setMaximum(true);
-            } catch (PropertyVetoException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "bien");
-        }
+       
     }//GEN-LAST:event_regEntraActionPerformed
 
     private void regSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regSalidaActionPerformed
-        if (!registrarSalida.isShowing()) {
-
-            try {
-                escritorio.add(registrarSalida);
-                Dimension panelDimension = escritorio.getSize();
-                Dimension registroDimension = registrarSalida.getSize();
-                registrarSalida.setLocation((panelDimension.width - registroDimension.width) / 2, (panelDimension.height - registroDimension.height) / 2);
-                registrarSalida.show();
-                registrarSalida.setMaximum(true);
-            } catch (PropertyVetoException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "bien");
-        }
+      
     }//GEN-LAST:event_regSalidaActionPerformed
 
     private void gestUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestUsuarioActionPerformed
@@ -207,67 +178,39 @@ public class Principal extends javax.swing.JFrame {
                 Dimension registroDimension = gestionUsuario.getSize();
                 gestionUsuario.setLocation((panelDimension.width - registroDimension.width) / 2, (panelDimension.height - registroDimension.height) / 2);
                 gestionUsuario.show();
-                gestionUsuario.setMaximum(true);
+                gestionUsuario.setMaximum(false);
             } catch (PropertyVetoException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         } else {
-            JOptionPane.showMessageDialog(null, "bien");
+             System.out.println("");
         }
     }//GEN-LAST:event_gestUsuarioActionPerformed
 
     private void gestInsumoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestInsumoActionPerformed
-        if (!gestionInsumo.isShowing()) {
+        if (!gestionInsumos.isShowing()) {
 
             try {
-                escritorio.add(gestionInsumo);
+                escritorio.add(gestionInsumos);
                 Dimension panelDimension = escritorio.getSize();
-                Dimension registroDimension = gestionInsumo.getSize();
-                gestionInsumo.setLocation((panelDimension.width - registroDimension.width) / 2, (panelDimension.height - registroDimension.height) / 2);
-                gestionInsumo.show();
-                gestionInsumo.setMaximum(true);
+                Dimension registroDimension = gestionInsumos.getSize();
+                gestionInsumos.setLocation((panelDimension.width - registroDimension.width) / 2, (panelDimension.height - registroDimension.height) / 2);
+                gestionInsumos.show();
+                gestionInsumos.setMaximum(false);
             } catch (PropertyVetoException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         } else {
-            JOptionPane.showMessageDialog(null, "bien");
+             System.out.println("");
         }
     }//GEN-LAST:event_gestInsumoActionPerformed
 
     private void gestProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestProveedorActionPerformed
-        if (!gestionProveedor.isShowing()) {
-
-            try {
-                escritorio.add(gestionProveedor);
-                Dimension panelDimension = escritorio.getSize();
-                Dimension registroDimension = gestionProveedor.getSize();
-                gestionProveedor.setLocation((panelDimension.width - registroDimension.width) / 2, (panelDimension.height - registroDimension.height) / 2);
-                gestionProveedor.show();
-                gestionProveedor.setMaximum(true);
-            } catch (PropertyVetoException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "bien");
-        }
+      
     }//GEN-LAST:event_gestProveedorActionPerformed
 
     private void gestReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestReporteActionPerformed
-        if (!gestionReporte.isShowing()) {
-
-            try {
-                escritorio.add(gestionReporte);
-                Dimension panelDimension = escritorio.getSize();
-                Dimension registroDimension = gestionReporte.getSize();
-                gestionReporte.setLocation((panelDimension.width - registroDimension.width) / 2, (panelDimension.height - registroDimension.height) / 2);
-                gestionReporte.show();
-                gestionReporte.setMaximum(true);
-            } catch (PropertyVetoException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "bien");
-        }
+       
     }//GEN-LAST:event_gestReporteActionPerformed
 
     /**
@@ -286,15 +229,11 @@ public class Principal extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(almacenl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+             System.out.println(ex.getMessage());
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */

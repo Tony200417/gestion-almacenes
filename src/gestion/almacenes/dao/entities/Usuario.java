@@ -65,4 +65,11 @@ public class Usuario {
         this.celular = celular;
     }
 
+    @Override
+    public String toString() {
+        return "Usuario{" + "dni=" + dni + ", nombre=" + nombre + ", apellidos=" + apellidos + ", usuario=" + usuario + ", password=" + password + ", celular=" + celular + '}';
+    }
+    
+    
+
 }

@@ -1,4 +1,4 @@
-package gestion.almacenes.forms;
+package gestion.almacenes.forms.inicio;
 
 public class INTERMEDIO extends javax.swing.JFrame {
 

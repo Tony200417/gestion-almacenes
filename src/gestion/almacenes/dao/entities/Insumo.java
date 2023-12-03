@@ -10,5 +10,5 @@ package gestion.almacenes.dao.entities;
  * @author Bacilio
  */
 public class Insumo {
-    
+    //agregar campos similar al de usuaio
 }
