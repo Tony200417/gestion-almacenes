@@ -22,4 +22,8 @@ public interface IUsuarioController {
     public String usuarioDelete(String idDni);
 
     public Usuario usuarioGet(String idDni);
+    
+    //public boolean iniciarsesion(Usuario usuario);
+    
+    
 }

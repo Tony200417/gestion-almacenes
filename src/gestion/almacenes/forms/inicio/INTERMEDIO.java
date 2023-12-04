@@ -13,9 +13,9 @@ public class INTERMEDIO extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        pgBarraCarga = new javax.swing.JProgressBar();
+        lblEstado = new javax.swing.JLabel();
+        lblPorcentaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("INICIANDO SISTEMA");
@@ -23,27 +23,27 @@ public class INTERMEDIO extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gestion/almacenes/forms/2968f995e93c22f75b89fa0f15ac33ed.gif"))); // NOI18N
 
-        jLabel2.setBackground(new java.awt.Color(0, 102, 102));
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 102, 102));
-        jLabel2.setText("CARGANDO...");
+        lblEstado.setBackground(new java.awt.Color(0, 102, 102));
+        lblEstado.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
+        lblEstado.setForeground(new java.awt.Color(0, 102, 102));
+        lblEstado.setText("CARGANDO...");
 
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 102, 102));
-        jLabel3.setText("0 %");
+        lblPorcentaje.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
+        lblPorcentaje.setForeground(new java.awt.Color(0, 102, 102));
+        lblPorcentaje.setText("0 %");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pgBarraCarga, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(lblEstado)
                         .addGap(185, 185, 185)
-                        .addComponent(jLabel3)))
+                        .addComponent(lblPorcentaje)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -52,10 +52,10 @@ public class INTERMEDIO extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(4, 4, 4)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(lblEstado)
+                    .addComponent(lblPorcentaje))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pgBarraCarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -95,7 +95,6 @@ public class INTERMEDIO extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new INTERMEDIO().setVisible(true);
@@ -105,9 +104,9 @@ public class INTERMEDIO extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JProgressBar jProgressBar1;
+    javax.swing.JLabel lblEstado;
+    javax.swing.JLabel lblPorcentaje;
+    javax.swing.JProgressBar pgBarraCarga;
     // End of variables declaration//GEN-END:variables
 }

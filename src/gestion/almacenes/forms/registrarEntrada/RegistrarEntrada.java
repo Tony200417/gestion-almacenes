@@ -1,5 +1,6 @@
-package gestion.almacenes.forms.insumos;
+package gestion.almacenes.forms.registrarEntrada;
 
+import gestion.almacenes.forms.insumos.*;
 import gestion.almacenes.dao.entities.Insumo;
 import gestion.almacenes.controller.InsumoControllerImpl;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.UUID;
  *
  * @author Bacilio
  */
-public class GestionInsumos extends javax.swing.JInternalFrame {
+public class RegistrarEntrada extends javax.swing.JInternalFrame {
 
     private final IInsumoController iInsumoService;
     private final IProveedorController iProveedorController;
@@ -26,7 +27,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
     /**
      * Creates new form GestionUsuario
      */
-    public GestionInsumos() {
+    public RegistrarEntrada() {
         initComponents();
         this.iInsumoService = new InsumoControllerImpl();
         this.iProveedorController = new ProveedorControllerImpl();
@@ -66,6 +67,12 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         comboTipoInsumo = new javax.swing.JComboBox<String>();
         jLabel9 = new javax.swing.JLabel();
         comboUnidadMedida = new javax.swing.JComboBox<String>();
+        jLabel6 = new javax.swing.JLabel();
+        txtStockFinal = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtCantEntra = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        txtCosto = new javax.swing.JTextField();
         panelActions = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
@@ -79,7 +86,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         setBackground(new java.awt.Color(0, 102, 102));
         setClosable(true);
         setIconifiable(true);
-        setTitle("Gestionar Insumos");
+        setTitle("Registrar Entrada de Insumo");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMaximumSize(new java.awt.Dimension(600, 550));
         setMinimumSize(new java.awt.Dimension(600, 550));
@@ -118,7 +125,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         txtStockInicial.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel4.setText("Stock Inicial");
+        jLabel4.setText("Stock Inicial:");
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jLabel5.setText("Tipo:");
@@ -144,6 +151,27 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         jLabel9.setText("U/M");
         jLabel9.setName("gestionInsumos"); // NOI18N
 
+        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel6.setText("Stock Final:");
+
+        txtStockFinal.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtStockFinal.setForeground(new java.awt.Color(0, 0, 204));
+        txtStockFinal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel10.setText("Cantidad Entrante:");
+
+        txtCantEntra.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtCantEntra.setForeground(new java.awt.Color(0, 0, 204));
+        txtCantEntra.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel11.setText("Costo");
+
+        txtCosto.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        txtCosto.setForeground(new java.awt.Color(0, 0, 204));
+        txtCosto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         javax.swing.GroupLayout panelDatosLayout = new javax.swing.GroupLayout(panelDatos);
         panelDatos.setLayout(panelDatosLayout);
         panelDatosLayout.setHorizontalGroup(
@@ -155,10 +183,6 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(comboProveedor, 0, 191, Short.MAX_VALUE)
                             .addComponent(comboTipoInsumo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(64, 64, 64)
-                                .addComponent(jLabel8))
                             .addComponent(jLabel5)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
@@ -173,19 +197,34 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
                     .addComponent(txtidInsumo)
                     .addGroup(panelDatosLayout.createSequentialGroup()
                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtStockFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelDatosLayout.createSequentialGroup()
+                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtStockInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addComponent(txtStockInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1))
-                            .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addGap(274, 274, 274)
+                                .addGap(10, 10, 10)
+                                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCantEntra, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtPrecio)
+                                    .addGroup(panelDatosLayout.createSequentialGroup()
+                                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel10)
+                                            .addComponent(jLabel8))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(36, 36, 36)
                                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(comboUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9)))
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel11)
+                                    .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addGap(135, 135, 135)
-                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addGap(26, 26, 26))
         );
         panelDatosLayout.setVerticalGroup(
@@ -214,15 +253,27 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
                 .addGap(6, 6, 6)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(comboUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtStockInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtCantEntra, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel8)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtStockFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(23, 23, 23))
         );
 
         panelActions.setBackground(java.awt.SystemColor.inactiveCaption);
@@ -352,14 +403,14 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
             panelListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelListaLayout.setVerticalGroup(
             panelListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -381,11 +432,11 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelLista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelLista, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -593,10 +644,13 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> comboTipoInsumo;
     private javax.swing.JComboBox<String> comboUnidadMedida;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -605,9 +659,12 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
     private javax.swing.JPanel panelDatos;
     private javax.swing.JPanel panelLista;
     private javax.swing.JTable tbInsumos;
+    private javax.swing.JTextField txtCantEntra;
+    private javax.swing.JTextField txtCosto;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtSerie;
+    private javax.swing.JTextField txtStockFinal;
     private javax.swing.JTextField txtStockInicial;
     private javax.swing.JTextField txtidInsumo;
     // End of variables declaration//GEN-END:variables

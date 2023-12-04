@@ -7,6 +7,8 @@ package gestion.almacenes.forms.principal;
 
 import gestion.almacenes.forms.insumos.GestionInsumos;
 import gestion.almacenes.forms.proveedor.GestionProveedores;
+import gestion.almacenes.forms.registrarEntrada.RegistrarEntrada;
+import gestion.almacenes.forms.registrarSalida.RegistrarSalida;
 import gestion.almacenes.forms.usuarios.GestionUsuario;
 import java.awt.Dimension;
 import java.beans.PropertyVetoException;
@@ -20,7 +22,9 @@ public class Principal extends javax.swing.JFrame {
     GestionUsuario gestionUsuario = new GestionUsuario();
     GestionInsumos gestionInsumos = new GestionInsumos();
     GestionProveedores gestionProveedor = new GestionProveedores();
-   
+    RegistrarEntrada registrarEntrada = new RegistrarEntrada();
+    RegistrarSalida registrarSalida = new RegistrarSalida();
+
     public Principal() {
         initComponents();
     }
@@ -37,6 +41,7 @@ public class Principal extends javax.swing.JFrame {
         escritorio = new javax.swing.JDesktopPane();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         menu = new javax.swing.JMenuBar();
         almacen = new javax.swing.JMenu();
         regEntra = new javax.swing.JMenuItem();
@@ -45,12 +50,13 @@ public class Principal extends javax.swing.JFrame {
         gestInsumo = new javax.swing.JMenuItem();
         gestUsuario = new javax.swing.JMenuItem();
         gestProveedor = new javax.swing.JMenuItem();
-        gestReporte = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MENU PRINCIPAL");
+        setBounds(new java.awt.Rectangle(300, 100, 0, 0));
         setFont(new java.awt.Font("MS Reference Sans Serif", 0, 12)); // NOI18N
         setForeground(java.awt.Color.white);
+        setName("principal"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1296, 761));
         setResizable(false);
 
@@ -62,31 +68,41 @@ public class Principal extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 204, 51));
         jLabel2.setText("BIENVENIDOS AL ALMACÉN...!!!");
 
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gestion/almacenes/forms/imagenes/e7ca98e99c087390fbaf0aa386e0249d.gif"))); // NOI18N
+
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(escritorioLayout.createSequentialGroup()
-                .addContainerGap(196, Short.MAX_VALUE)
+                .addContainerGap(46, Short.MAX_VALUE)
                 .addGroup(escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, escritorioLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(285, 285, 285))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, escritorioLayout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 757, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(147, 147, 147))))
+                        .addGap(145, 145, 145))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, escritorioLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addGap(292, 292, 292))))
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(escritorioLayout.createSequentialGroup()
                 .addGap(72, 72, 72)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel1)
+                .addGroup(escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(escritorioLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1))
+                    .addGroup(escritorioLayout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addComponent(jLabel3)))
                 .addContainerGap(172, Short.MAX_VALUE))
         );
         escritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         escritorio.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        escritorio.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         almacen.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         almacen.setText("ALMACÉN");
@@ -113,6 +129,7 @@ public class Principal extends javax.swing.JFrame {
         gestionar.setText("GESTIONAR");
 
         gestInsumo.setText("GESTIONAR INSUMO");
+        gestInsumo.setName("principal"); // NOI18N
         gestInsumo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gestInsumoActionPerformed(evt);
@@ -136,14 +153,6 @@ public class Principal extends javax.swing.JFrame {
         });
         gestionar.add(gestProveedor);
 
-        gestReporte.setText("GESTIONAR REPORTE");
-        gestReporte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gestReporteActionPerformed(evt);
-            }
-        });
-        gestionar.add(gestReporte);
-
         menu.add(gestionar);
 
         setJMenuBar(menu);
@@ -163,11 +172,39 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void regEntraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regEntraActionPerformed
-       
+        if (!registrarEntrada.isShowing()) {
+
+            try {
+                escritorio.add(registrarEntrada);
+                Dimension panelDimension = escritorio.getSize();
+                Dimension registroDimension = registrarEntrada.getSize();
+                registrarEntrada.setLocation((panelDimension.width - registroDimension.width) / 2, (panelDimension.height - registroDimension.height) / 2);
+                registrarEntrada.show();
+                registrarEntrada.setMaximum(false);
+            } catch (PropertyVetoException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            System.out.println("");
+        }
     }//GEN-LAST:event_regEntraActionPerformed
 
     private void regSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regSalidaActionPerformed
-      
+        if (!registrarSalida.isShowing()) {
+
+            try {
+                escritorio.add(registrarSalida);
+                Dimension panelDimension = escritorio.getSize();
+                Dimension registroDimension = registrarSalida.getSize();
+                registrarSalida.setLocation((panelDimension.width - registroDimension.width) / 2, (panelDimension.height - registroDimension.height) / 2);
+                registrarSalida.show();
+                registrarSalida.setMaximum(false);
+            } catch (PropertyVetoException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else {
+            System.out.println("");
+        }
     }//GEN-LAST:event_regSalidaActionPerformed
 
     private void gestUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestUsuarioActionPerformed
@@ -184,7 +221,7 @@ public class Principal extends javax.swing.JFrame {
                 System.out.println(ex.getMessage());
             }
         } else {
-             System.out.println("");
+            System.out.println("");
         }
     }//GEN-LAST:event_gestUsuarioActionPerformed
 
@@ -202,7 +239,7 @@ public class Principal extends javax.swing.JFrame {
                 System.out.println(ex.getMessage());
             }
         } else {
-             System.out.println("");
+            System.out.println("");
         }
     }//GEN-LAST:event_gestInsumoActionPerformed
 
@@ -220,55 +257,20 @@ public class Principal extends javax.swing.JFrame {
                 System.out.println(ex.getMessage());
             }
         } else {
-             System.out.println("");
-        }      
-    }//GEN-LAST:event_gestProveedorActionPerformed
-
-    private void gestReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestReporteActionPerformed
-       
-    }//GEN-LAST:event_gestReporteActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-             System.out.println(ex.getMessage());
+            System.out.println("");
         }
-        //</editor-fold>
-        
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Principal().setVisible(true);
-            }
-        });
-    }
+    }//GEN-LAST:event_gestProveedorActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu almacen;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JMenuItem gestInsumo;
     private javax.swing.JMenuItem gestProveedor;
-    private javax.swing.JMenuItem gestReporte;
     private javax.swing.JMenuItem gestUsuario;
     private javax.swing.JMenu gestionar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuBar menu;
     private javax.swing.JMenuItem regEntra;
     private javax.swing.JMenuItem regSalida;

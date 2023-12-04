@@ -61,7 +61,7 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
         setBackground(new java.awt.Color(0, 102, 102));
         setClosable(true);
         setIconifiable(true);
-        setTitle("Gestionar Usuarios");
+        setTitle("Gestionar Proveedores");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMaximumSize(new java.awt.Dimension(600, 550));
         setMinimumSize(new java.awt.Dimension(600, 550));
@@ -139,7 +139,7 @@ public class GestionProveedores extends javax.swing.JInternalFrame {
                                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(panelDatosLayout.createSequentialGroup()
                                                 .addComponent(jLabel3)
-                                                .addGap(0, 164, Short.MAX_VALUE))
+                                                .addGap(0, 0, Short.MAX_VALUE))
                                             .addComponent(txtRuc))))))
                         .addGap(22, 22, 22))))
         );
