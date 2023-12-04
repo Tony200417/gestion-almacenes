@@ -1,17 +1,14 @@
 package gestion.almacenes.forms.registrarEntrada;
 
-import gestion.almacenes.forms.insumos.*;
 import gestion.almacenes.dao.entities.Insumo;
 import gestion.almacenes.controller.InsumoControllerImpl;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import gestion.almacenes.controller.IInsumoController;
-import gestion.almacenes.controller.IProveedorController;
-import gestion.almacenes.controller.ProveedorControllerImpl;
-import gestion.almacenes.dao.entities.Proveedor;
-import java.util.ArrayList;
+import gestion.almacenes.controller.IInsumoEntraController;
+import gestion.almacenes.controller.InsumoEntraControllerImpl;
+import gestion.almacenes.dao.entities.InsumoEntra;
 import java.util.UUID;
 
 /**
@@ -21,8 +18,7 @@ import java.util.UUID;
 public class RegistrarEntrada extends javax.swing.JInternalFrame {
 
     private final IInsumoController iInsumoService;
-    private final IProveedorController iProveedorController;
-    private List<Insumo> listaInsumo;
+    private final IInsumoEntraController insumoEntraController;
 
     /**
      * Creates new form GestionUsuario
@@ -30,15 +26,10 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
     public RegistrarEntrada() {
         initComponents();
         this.iInsumoService = new InsumoControllerImpl();
-        this.iProveedorController = new ProveedorControllerImpl();
-        btnActualizar.setEnabled(false);
-        btnEliminar.setEnabled(false);
+        this.insumoEntraController = new InsumoEntraControllerImpl();
         btnRegistrar.setEnabled(true);
-        cargarComboProveedores();
-        cargarComboTipoInsumo();
-        cargarComboUnidadMedida();
+        cargarComboInsumos();
         cargarListaInsumo();
-        cargarValores();
     }
 
     /**
@@ -51,33 +42,16 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         panelDatos = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        txtidInsumo = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtSerie = new javax.swing.JTextField();
         txtStockInicial = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        txtPrecio = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        comboProveedor = new javax.swing.JComboBox<Proveedor>();
-        comboTipoInsumo = new javax.swing.JComboBox<String>();
-        jLabel9 = new javax.swing.JLabel();
-        comboUnidadMedida = new javax.swing.JComboBox<String>();
+        comboInsumos = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         txtStockFinal = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         txtCantEntra = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        txtCosto = new javax.swing.JTextField();
         panelActions = new javax.swing.JPanel();
         btnRegistrar = new javax.swing.JButton();
-        btnActualizar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
-        btnBuscar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         panelLista = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -96,30 +70,6 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
         panelDatos.setBackground(java.awt.SystemColor.inactiveCaption);
         panelDatos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel1.setText("ID Insumo");
-
-        txtidInsumo.setEditable(false);
-        txtidInsumo.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtidInsumo.setForeground(new java.awt.Color(0, 0, 204));
-        txtidInsumo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel2.setText("Nombre:");
-        jLabel2.setName("gestionInsumos"); // NOI18N
-
-        txtNombre.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtNombre.setForeground(new java.awt.Color(0, 0, 204));
-        txtNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel3.setText("Serie:");
-
-        txtSerie.setEditable(false);
-        txtSerie.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtSerie.setForeground(new java.awt.Color(0, 0, 204));
-        txtSerie.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
         txtStockInicial.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         txtStockInicial.setForeground(new java.awt.Color(0, 0, 204));
         txtStockInicial.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -127,29 +77,16 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jLabel4.setText("Stock Inicial:");
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel5.setText("Tipo:");
-
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel7.setText("Proveedor:");
+        jLabel7.setText("Insumos:");
 
-        txtPrecio.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtPrecio.setForeground(new java.awt.Color(0, 0, 204));
-        txtPrecio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel8.setText("Precio:");
-        jLabel8.setName("gestionInsumos"); // NOI18N
-
-        comboProveedor.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        comboProveedor.setForeground(new java.awt.Color(0, 0, 204));
-
-        comboTipoInsumo.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        comboTipoInsumo.setForeground(new java.awt.Color(0, 0, 204));
-
-        jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel9.setText("U/M");
-        jLabel9.setName("gestionInsumos"); // NOI18N
+        comboInsumos.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        comboInsumos.setForeground(new java.awt.Color(0, 0, 204));
+        comboInsumos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboInsumosActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jLabel6.setText("Stock Final:");
@@ -164,13 +101,11 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
         txtCantEntra.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         txtCantEntra.setForeground(new java.awt.Color(0, 0, 204));
         txtCantEntra.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-
-        jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel11.setText("Costo");
-
-        txtCosto.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        txtCosto.setForeground(new java.awt.Color(0, 0, 204));
-        txtCosto.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtCantEntra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantEntraKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelDatosLayout = new javax.swing.GroupLayout(panelDatos);
         panelDatos.setLayout(panelDatosLayout);
@@ -180,100 +115,45 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
                 .addGap(24, 24, 24)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelDatosLayout.createSequentialGroup()
-                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboProveedor, 0, 191, Short.MAX_VALUE)
-                            .addComponent(comboTipoInsumo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtNombre)
-                            .addComponent(txtSerie)))
-                    .addComponent(txtidInsumo)
-                    .addGroup(panelDatosLayout.createSequentialGroup()
-                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtStockFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(panelDatosLayout.createSequentialGroup()
                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtStockInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(16, 16, 16)
                         .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCantEntra, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtCantEntra, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(txtPrecio)
-                                    .addGroup(panelDatosLayout.createSequentialGroup()
-                                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel10)
-                                            .addComponent(jLabel8))
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addGap(36, 36, 36)
-                                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(comboUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel11)
-                                    .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jLabel10)
+                                .addGap(0, 1, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelDatosLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addComponent(jLabel6)
+                                .addGap(61, 61, 61))
+                            .addComponent(txtStockFinal)))
+                    .addComponent(comboInsumos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(26, 26, 26))
         );
         panelDatosLayout.setVerticalGroup(
             panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelDatosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtidInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboTipoInsumo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
+                .addComponent(comboInsumos, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboUnidadMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtStockInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtCantEntra, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel8)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addComponent(jLabel11))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtStockFinal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(23, 23, 23))
+                .addGroup(panelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtStockInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCantEntra, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtStockFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         panelActions.setBackground(java.awt.SystemColor.inactiveCaption);
@@ -289,45 +169,6 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
         btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrarActionPerformed(evt);
-            }
-        });
-
-        btnActualizar.setBackground(new java.awt.Color(255, 204, 102));
-        btnActualizar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        btnActualizar.setText("Actualizar");
-        btnActualizar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        btnActualizar.setBorderPainted(false);
-        btnActualizar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnActualizar.setName("btnRegistrar"); // NOI18N
-        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActualizarActionPerformed(evt);
-            }
-        });
-
-        btnEliminar.setBackground(new java.awt.Color(255, 153, 153));
-        btnEliminar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        btnEliminar.setText("Eliminar");
-        btnEliminar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        btnEliminar.setBorderPainted(false);
-        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnEliminar.setName("btnRegistrar"); // NOI18N
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-
-        btnBuscar.setBackground(new java.awt.Color(0, 204, 255));
-        btnBuscar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        btnBuscar.setText("Buscar");
-        btnBuscar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        btnBuscar.setBorderPainted(false);
-        btnBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnBuscar.setName("btnRegistrar"); // NOI18N
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
             }
         });
 
@@ -352,27 +193,17 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
                 .addGap(19, 19, 19)
                 .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnActualizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
         panelActionsLayout.setVerticalGroup(
             panelActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelActionsLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addContainerGap(55, Short.MAX_VALUE)
                 .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnActualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(33, 33, 33)
                 .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(60, 60, 60))
         );
 
         panelLista.setBackground(java.awt.SystemColor.inactiveCaption);
@@ -390,11 +221,6 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
             }
         ));
         tbInsumos.setUpdateSelectionOnSort(false);
-        tbInsumos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbInsumosMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tbInsumos);
 
         javax.swing.GroupLayout panelListaLayout = new javax.swing.GroupLayout(panelLista);
@@ -410,7 +236,7 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
             panelListaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -433,7 +259,7 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelLista, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -445,118 +271,76 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-        String rucProveedor = comboProveedor.getItemAt(comboProveedor.getSelectedIndex()).getRuc();
-        String tipoInsumo = comboTipoInsumo.getItemAt(comboTipoInsumo.getSelectedIndex());
-        String unidadMedida = comboUnidadMedida.getItemAt(comboUnidadMedida.getSelectedIndex());
-        Insumo insumo = new Insumo();
-        insumo.setIdProveedor(rucProveedor);
-        insumo.setTipo(tipoInsumo);
-        insumo.setUnidad(unidadMedida);
+        String idInsumo = comboInsumos.getItemAt(comboInsumos.getSelectedIndex()).getId();
+        String proveddorId = comboInsumos.getItemAt(comboInsumos.getSelectedIndex()).getIdProveedor();
+        String serie = comboInsumos.getItemAt(comboInsumos.getSelectedIndex()).getSerie();
+        String tipo = comboInsumos.getItemAt(comboInsumos.getSelectedIndex()).getTipo();
+        String nombre = comboInsumos.getItemAt(comboInsumos.getSelectedIndex()).getNombre();
+        double precio = comboInsumos.getItemAt(comboInsumos.getSelectedIndex()).getPrecio();
+        String uumm = comboInsumos.getItemAt(comboInsumos.getSelectedIndex()).getUnidad();
 
-        llenarInsumo(insumo);
-        String message = iInsumoService.insumoCreate(insumo);
-        JOptionPane.showMessageDialog(null, message, "Registar Insumo", HEIGHT);
-        limpiarInsumo();
-        cargarListaInsumo();
-        cargarValores();
-        cargarComboUnidadMedida();
-        cargarComboProveedores();
-    }//GEN-LAST:event_btnRegistrarActionPerformed
-
-    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        // TODO add your handling code here:
         Insumo insumo = new Insumo();
-        String rucProveedor = comboProveedor.getItemAt(comboProveedor.getSelectedIndex()).getRuc();
-        String tipoInsumo = comboTipoInsumo.getItemAt(comboTipoInsumo.getSelectedIndex());
-        String unidadMedida = comboUnidadMedida.getItemAt(comboUnidadMedida.getSelectedIndex());
-        insumo.setIdProveedor(rucProveedor);
-        insumo.setTipo(tipoInsumo);
-        insumo.setUnidad(unidadMedida);
-        llenarInsumo(insumo);
+        insumo.setId(idInsumo);
+        insumo.setIdProveedor(proveddorId);
+        insumo.setPrecio(precio);
+        insumo.setNombre(nombre);
+        insumo.setSerie(serie);
+        insumo.setTipo(tipo);
+        insumo.setUnidad(uumm);
+        insumo.setStockFinal(Integer.parseInt(txtStockFinal.getText()));
+        insumo.setStockInicial(Integer.parseInt(txtStockFinal.getText()));
+
+        InsumoEntra entra = new InsumoEntra();
+        entra.setCantidad(Integer.parseInt(txtCantEntra.getText()));
+        entra.setId(UUID.randomUUID().toString());
+        entra.setInsumoId(idInsumo);
+
+        String entrante = insumoEntraController.insumoEntraCreate(entra);
+        System.out.println("entrante " + entrante);
         String message = iInsumoService.insumoUpdate(insumo);
-        JOptionPane.showMessageDialog(null, message, "Actualizar Insumo", HEIGHT);
+        JOptionPane.showMessageDialog(null, message + "\n" + entrante, "Entrada de Insumo registrado", HEIGHT);
         limpiarInsumo();
+        //cargarComboInsumos();
         cargarListaInsumo();
-        cargarValores();
-        cargarComboUnidadMedida();
-        cargarComboProveedores();
-    }//GEN-LAST:event_btnActualizarActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-        String message = iInsumoService.insumoDelete(txtidInsumo.getText());
-        JOptionPane.showMessageDialog(null, message, "Elimnar Insumo", HEIGHT);
-        limpiarInsumo();
-        cargarListaInsumo();
-        cargarValores();
-        cargarComboUnidadMedida();
-        cargarComboProveedores();
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-        String idinsumo = JOptionPane.showInputDialog(null, "Ingrese el Codigo de Insumo");
-        Insumo insumo = iInsumoService.insumoGet(idinsumo);
-
-        if (insumo == null) {
-            JOptionPane.showMessageDialog(null, "Insumo no encontrado", "Insumo Usuario", HEIGHT);
-
-        } else {
-            llenarTextFieldsInsumos(insumo);
-        }
-
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void tbInsumosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbInsumosMouseClicked
-        // TODO add your handling code here:
-        btnActualizar.setEnabled(true);
-        btnEliminar.setEnabled(true);
-        btnRegistrar.setEnabled(false);
-        int index = tbInsumos.getSelectedRow();
-        TableModel tableModel = tbInsumos.getModel();
-        String id = tableModel.getValueAt(index, 0).toString();
-        String proveedor = tableModel.getValueAt(index, 1).toString();
-        String nombre = tableModel.getValueAt(index, 2).toString();
-        String precio = tableModel.getValueAt(index, 3).toString();
-        String serie = tableModel.getValueAt(index, 4).toString();
-        String tipo = tableModel.getValueAt(index, 5).toString();
-        String stock = tableModel.getValueAt(index, 6).toString();
-        String unidad = tableModel.getValueAt(index, 7).toString();
-
-        txtidInsumo.setText(id);
-        txtNombre.setText(nombre);
-        txtPrecio.setText(precio);
-        txtSerie.setText(serie);
-        txtStockInicial.setText(stock);
-        comboUnidadMedida.setSelectedItem(unidad);
-        comboTipoInsumo.setSelectedItem(tipo);
-        comboProveedor.setSelectedItem(proveedor);
-    }//GEN-LAST:event_tbInsumosMouseClicked
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         limpiarInsumo();
-        btnActualizar.setEnabled(false);
-        btnEliminar.setEnabled(false);
         btnRegistrar.setEnabled(true);
-        cargarComboProveedores();
-        cargarComboTipoInsumo();
-        cargarComboUnidadMedida();
-        cargarValores();
+        //cargarComboInsumos();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void comboInsumosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboInsumosActionPerformed
+        // TODO add your handling code here:
+        String insumoId = comboInsumos.getItemAt(comboInsumos.getSelectedIndex()).getId();
+
+        Insumo insumo = iInsumoService.insumoGet(insumoId);
+        if (insumo == null) {
+            JOptionPane.showMessageDialog(null, "Insumo no encontrado", "Buscar Insumo", HEIGHT);
+
+        } else {
+            txtStockInicial.setText(String.valueOf(insumo.getStockInicial()));
+        }
+    }//GEN-LAST:event_comboInsumosActionPerformed
+
+    private void txtCantEntraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantEntraKeyReleased
+        // TODO add your handling code here:
+
+        int cantidad = Integer.parseInt(txtCantEntra.getText());
+        int suma = cantidad + Integer.parseInt(txtStockInicial.getText());
+        txtStockFinal.setText(String.valueOf(suma));
+    }//GEN-LAST:event_txtCantEntraKeyReleased
+
     private void limpiarInsumo() {
-        txtidInsumo.enable(true);
-        txtidInsumo.setText("");
-        txtNombre.setText("");
-        txtPrecio.setText("");
-        txtSerie.setText("");
-        txtSerie.enable(true);
-        txtStockInicial.setText("");
+        txtCantEntra.setText("");
+        txtStockFinal.setText("");
+        btnRegistrar.setEnabled(true);
     }
 
     private void cargarListaInsumo() {
-        listaInsumo = this.iInsumoService.insumoRead();
+        List<Insumo> listaInsumo = this.iInsumoService.insumoRead();
         DefaultTableModel tableInsumo = new DefaultTableModel();
         tableInsumo.addColumn("ID");
         tableInsumo.addColumn("PROVEEDOR");
@@ -564,8 +348,9 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
         tableInsumo.addColumn("PRECIO");
         tableInsumo.addColumn("SERIE");
         tableInsumo.addColumn("TIPO");
-        tableInsumo.addColumn("STOCK");
+        tableInsumo.addColumn("S-I");
         tableInsumo.addColumn("UUMM");
+        tableInsumo.addColumn("S-F");
 
         for (int i = 0; i < listaInsumo.size(); i++) {
             tableInsumo.addRow(new Object[]{
@@ -576,96 +361,40 @@ public class RegistrarEntrada extends javax.swing.JInternalFrame {
                 listaInsumo.get(i).getSerie(),
                 listaInsumo.get(i).getTipo(),
                 listaInsumo.get(i).getStockInicial(),
-                listaInsumo.get(i).getUnidad(),});
+                listaInsumo.get(i).getUnidad(),
+                listaInsumo.get(i).getStockFinal(),});
         }
 
         tbInsumos.setModel(tableInsumo);
     }
 
-    private void cargarComboProveedores() {
-        comboProveedor.removeAllItems();
-        List<Proveedor> listaProveedores = iProveedorController.proveedorRead();
-        for (int i = 0; i < listaProveedores.size(); i++) {
-            comboProveedor.addItem(listaProveedores.get(i));
+    private void cargarComboInsumos() {
+        comboInsumos.removeAllItems();
+        List<Insumo> insumos = iInsumoService.insumoRead();
+        for (int i = 0; i < insumos.size(); i++) {
+            comboInsumos.addItem(insumos.get(i));
         }
-    }
-
-    private void cargarComboTipoInsumo() {
-        comboTipoInsumo.removeAllItems();
-        List<String> listaTipoInsumo = new ArrayList<>();
-        listaTipoInsumo.add("Perecible");
-        listaTipoInsumo.add("No Perecible");
-        for (int i = 0; i < listaTipoInsumo.size(); i++) {
-            comboTipoInsumo.addItem(listaTipoInsumo.get(i));
-        }
-    }
-
-    private void cargarComboUnidadMedida() {
-        comboUnidadMedida.removeAllItems();
-        List<String> listaUnidadMedida = new ArrayList<>();
-        listaUnidadMedida.add("KG");
-        listaUnidadMedida.add("Lts");
-        listaUnidadMedida.add("Unid");
-        for (int i = 0; i < listaUnidadMedida.size(); i++) {
-            comboUnidadMedida.addItem(listaUnidadMedida.get(i));
-        }
-    }
-
-    private void llenarInsumo(Insumo insumo) {
-        insumo.setId(txtidInsumo.getText());
-        insumo.setNombre(txtNombre.getText());
-        insumo.setPrecio(Double.parseDouble(txtPrecio.getText()));
-        insumo.setSerie(txtSerie.getText());
-        insumo.setStockInicial(Integer.parseInt(txtStockInicial.getText()));
-        btnActualizar.setEnabled(false);
-        btnEliminar.setEnabled(false);
-        btnRegistrar.setEnabled(true);
-    }
-
-    private void cargarValores() {
-        txtidInsumo.setText(UUID.randomUUID().toString());
-        txtSerie.setText("I-00" + 1);
     }
 
     private void llenarTextFieldsInsumos(Insumo insumo) {
-        txtidInsumo.setText(insumo.getId());
-        txtNombre.setText(insumo.getNombre());
-        txtPrecio.setText(String.valueOf(insumo.getPrecio()));
-        txtSerie.setText(insumo.getSerie());
+
         txtStockInicial.setText(String.valueOf(insumo.getStockInicial()));
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnActualizar;
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegistrar;
-    private javax.swing.JComboBox<Proveedor> comboProveedor;
-    private javax.swing.JComboBox<String> comboTipoInsumo;
-    private javax.swing.JComboBox<String> comboUnidadMedida;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<Insumo> comboInsumos;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel panelActions;
     private javax.swing.JPanel panelDatos;
     private javax.swing.JPanel panelLista;
     private javax.swing.JTable tbInsumos;
     private javax.swing.JTextField txtCantEntra;
-    private javax.swing.JTextField txtCosto;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtPrecio;
-    private javax.swing.JTextField txtSerie;
     private javax.swing.JTextField txtStockFinal;
     private javax.swing.JTextField txtStockInicial;
-    private javax.swing.JTextField txtidInsumo;
     // End of variables declaration//GEN-END:variables
 }

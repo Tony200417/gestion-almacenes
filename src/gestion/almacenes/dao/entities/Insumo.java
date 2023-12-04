@@ -19,6 +19,8 @@ public class Insumo {
     private String nombre;
     private String tipo;
     private String unidad;
+    private int stockFinal;
+    private String usuario;
 
     public String getId() {
         return id;
@@ -84,4 +86,25 @@ public class Insumo {
         this.unidad = unidad;
     }
 
+    public int getStockFinal() {
+        return stockFinal;
+    }
+
+    public void setStockFinal(int stockFinal) {
+        this.stockFinal = stockFinal;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " - " + id;
+
+    }
 }

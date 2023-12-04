@@ -461,25 +461,37 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         btnActualizar.setEnabled(true);
         btnEliminar.setEnabled(true);
         btnRegistrar.setEnabled(false);
+        
         int index = tbInsumos.getSelectedRow();
         TableModel tableModel = tbInsumos.getModel();
         String id = tableModel.getValueAt(index, 0).toString();
-        String proveedor = tableModel.getValueAt(index, 1).toString();
+
+        if (tableModel.getValueAt(index, 1) != null) {
+            comboProveedor.setSelectedItem(tableModel.getValueAt(index, 1).toString());
+        }
+        
         String nombre = tableModel.getValueAt(index, 2).toString();
         String precio = tableModel.getValueAt(index, 3).toString();
         String serie = tableModel.getValueAt(index, 4).toString();
-        String tipo = tableModel.getValueAt(index, 5).toString();
+        
+        if (tableModel.getValueAt(index, 5) != null) {
+            comboTipoInsumo.setSelectedItem(tableModel.getValueAt(index, 5).toString());
+        }
+        
         String stock = tableModel.getValueAt(index, 6).toString();
-        String unidad = tableModel.getValueAt(index, 7).toString();
+        
+        if (tableModel.getValueAt(index, 7) != null) {
+            comboUnidadMedida.setSelectedItem(tableModel.getValueAt(index, 7).toString());
+        }
 
         txtidInsumo.setText(id);
         txtNombre.setText(nombre);
         txtPrecio.setText(precio);
         txtSerie.setText(serie);
         txtStockInicial.setText(stock);
-        comboUnidadMedida.setSelectedItem(unidad);
-        comboTipoInsumo.setSelectedItem(tipo);
-        comboProveedor.setSelectedItem(proveedor);
+        txtStockInicial.setEditable(false);
+
+
     }//GEN-LAST:event_tbInsumosMouseClicked
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -488,6 +500,7 @@ public class GestionInsumos extends javax.swing.JInternalFrame {
         btnActualizar.setEnabled(false);
         btnEliminar.setEnabled(false);
         btnRegistrar.setEnabled(true);
+         txtStockInicial.setEditable(true);
         cargarComboProveedores();
         cargarComboTipoInsumo();
         cargarComboUnidadMedida();

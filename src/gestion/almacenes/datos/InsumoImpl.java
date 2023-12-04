@@ -28,11 +28,11 @@ public class InsumoImpl implements IInsumo {
 
     @Override
     public String insumoCreate(Insumo insumo) {
-
+//INSERT INTO INSUMOS (ID, PROVEDOR_ID, PRECIO, STOCK_INICIAL, SERIE, NOMBRE, TIPO, UUMM, [Doc_usuario], STOCK_FINAL) VALUES('', '', 0, 0, '', '', '', '', '', 0);
         StringBuilder QUERY_INSERT = new StringBuilder();
         QUERY_INSERT.append("INSERT INTO INSUMOS ");
-        QUERY_INSERT.append("(ID, PROVEDOR_ID, PRECIO, STOCK_INICIAL, SERIE, NOMBRE, TIPO,UUMM) ");
-        QUERY_INSERT.append("VALUES (?,?,?,?,?,?,?,?);");
+        QUERY_INSERT.append("(ID, PROVEDOR_ID, PRECIO, STOCK_INICIAL, SERIE, NOMBRE, TIPO, UUMM, Doc_usuario, STOCK_FINAL) ");
+        QUERY_INSERT.append("VALUES (?,?,?,?,?,?,?,?,?,?);");
 
         try (Connection conn = database.getConnection(); PreparedStatement st = conn.prepareStatement(QUERY_INSERT.toString());) {
             st.setString(1, insumo.getId());
@@ -43,6 +43,8 @@ public class InsumoImpl implements IInsumo {
             st.setString(6, insumo.getNombre());
             st.setString(7, insumo.getTipo());
             st.setString(8, insumo.getUnidad());
+            st.setString(9, insumo.getUsuario());
+            st.setInt(10, insumo.getStockFinal());
 
             int rows = st.executeUpdate();
 
@@ -61,7 +63,8 @@ public class InsumoImpl implements IInsumo {
     @Override
     public List<Insumo> insumoRead() {
         List<Insumo> insumos = new ArrayList<>();
-        final String QUERY_SELECT = "SELECT ID, PROVEDOR_ID, PRECIO, STOCK_INICIAL, SERIE, NOMBRE, TIPO, UUMM FROM INSUMOS;";
+
+        final String QUERY_SELECT = "SELECT ID, PROVEDOR_ID, PRECIO, STOCK_INICIAL, SERIE, NOMBRE, TIPO, UUMM, Doc_usuario, STOCK_FINAL FROM INSUMOS;";
         try (
                 Connection conn = database.getConnection(); PreparedStatement ps = conn.prepareStatement(QUERY_SELECT); ResultSet rs = ps.executeQuery();) {
             while (rs.next()) {
@@ -74,6 +77,8 @@ public class InsumoImpl implements IInsumo {
                 insumo.setNombre(rs.getString("NOMBRE"));
                 insumo.setTipo(rs.getString("TIPO"));
                 insumo.setUnidad(rs.getString("UUMM"));
+                insumo.setUsuario(rs.getString("Doc_usuario"));
+                insumo.setStockFinal(rs.getInt("STOCK_FINAL"));
                 insumos.add(insumo);
             }
         } catch (Exception e) {
@@ -83,8 +88,7 @@ public class InsumoImpl implements IInsumo {
     }
 
     @Override
-    public String insumoUpdate(Insumo insumo) {
-
+    public String insumoUpdate(Insumo insumo) {        
         StringBuilder QUERY_UPDATE = new StringBuilder();
         QUERY_UPDATE.append("UPDATE INSUMOS SET ");
         QUERY_UPDATE.append("PROVEDOR_ID = ?, ");
@@ -93,7 +97,9 @@ public class InsumoImpl implements IInsumo {
         QUERY_UPDATE.append("SERIE = ?, ");
         QUERY_UPDATE.append("NOMBRE = ?, ");
         QUERY_UPDATE.append("TIPO = ?, ");
-        QUERY_UPDATE.append("UUMM = ? ");
+        QUERY_UPDATE.append("UUMM = ?, ");
+        QUERY_UPDATE.append("Doc_usuario = ?, ");
+        QUERY_UPDATE.append("STOCK_FINAL = ? ");
         QUERY_UPDATE.append("WHERE ID = ?;");
 
         try (
@@ -105,7 +111,9 @@ public class InsumoImpl implements IInsumo {
             ps.setString(5, insumo.getNombre());
             ps.setString(6, insumo.getTipo());
             ps.setString(7, insumo.getUnidad());
-            ps.setString(8, insumo.getId());
+            ps.setString(8, insumo.getUsuario());
+            ps.setInt(9, insumo.getStockFinal());
+            ps.setString(10, insumo.getId());
 
             int rows = ps.executeUpdate();
             if (rows == 0) {
@@ -142,7 +150,7 @@ public class InsumoImpl implements IInsumo {
     @Override
     public Insumo insumoGet(String idinsumo) {
         StringBuilder QUERY_SELECT = new StringBuilder();
-        QUERY_SELECT.append("SELECT ID, PROVEDOR_ID, PRECIO, STOCK_INICIAL, SERIE, NOMBRE, TIPO, UUMM ");
+        QUERY_SELECT.append("SELECT ID, PROVEDOR_ID, PRECIO, STOCK_INICIAL, SERIE, NOMBRE, TIPO, UUMM, Doc_usuario, STOCK_FINAL ");
         QUERY_SELECT.append("FROM INSUMOS ");
         QUERY_SELECT.append("WHERE ID = ?;");
 
@@ -162,6 +170,8 @@ public class InsumoImpl implements IInsumo {
                     insumo.setNombre(rs.getString("NOMBRE"));
                     insumo.setTipo(rs.getString("TIPO"));
                     insumo.setUnidad(rs.getString("UUMM"));
+                    insumo.setUsuario(rs.getString("Doc_usuario"));
+                    insumo.setStockFinal(rs.getInt("STOCK_FINAL"));
                 }
             } catch (Exception e) {
                 message = e.getMessage();
@@ -171,6 +181,11 @@ public class InsumoImpl implements IInsumo {
             message = e.getMessage();
         }
         return insumo;
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 
 }

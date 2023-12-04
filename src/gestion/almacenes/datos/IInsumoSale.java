@@ -5,23 +5,24 @@
 package gestion.almacenes.datos;
 
 import gestion.almacenes.dao.entities.Insumo;
+import gestion.almacenes.dao.entities.InsumoSale;
 import java.util.List;
 
 /**
  *
  * @author cbaciliod
  */
-public interface IInsumo {
+public interface IInsumoSale {
 
-    public String insumoCreate(Insumo insumo);
+    public String insumoSaleCreate(InsumoSale insumoSale);
 
-    public List<Insumo> insumoRead();
+    public List<InsumoSale> insumoSaleRead();
 
-    public String insumoUpdate(Insumo insumo);
+    public String insumoSaleUpdate(InsumoSale insumoSale);
 
-    public String insumoDelete(String idinsumo);
+    public String insumoSaleDelete(String idInsumoSale);
 
-    public Insumo insumoGet(String idinsumo);
+    public Insumo insumoSaleGet(String idInsumoSale);
 
     public String getMessage();
 }

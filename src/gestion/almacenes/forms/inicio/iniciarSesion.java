@@ -68,8 +68,12 @@ public class iniciarSesion extends javax.swing.JFrame {
             }
         });
 
+        txtUser.setText("comprador2001");
+
         jLabel3.setFont(new java.awt.Font("Yu Gothic UI Light", 1, 14)); // NOI18N
         jLabel3.setText("CONTRASEÑA");
+
+        txtPassw.setText("2001123");
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gestion/almacenes/forms/imagenes/canc.png"))); // NOI18N
         jButton2.setText("CANCELAR");
